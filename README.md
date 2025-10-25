@@ -79,7 +79,7 @@ custom-homepage/
 
 ### **Navigation**
 - **Normal Click**: Click link text/icon to navigate
-- **Background Tab**: Click the external link icon (🔗) to open without switching
+- **Background Tab**: Ctrl + click to open link - stay on page
 - **Google Search**: Type in search bar and press Enter
 
 ### **Organization**
@@ -147,7 +147,7 @@ This package is code-signed for authenticity. Always verify the signature before
 ### **Simplest Verification Method (All OS)**
 
 #### **For GitHub Releases:**
-1. **Download from GitHub**: Go to the [Releases page](https://github.com/ponofinlayson-web/custom-homepage/releases)
+1. **Download from GitHub**: Go to the [Releases page](https://github.com/ponofinlayson-web/cursor/releases)
 2. **Check "Verified" badge**: Look for the green "Verified" badge next to the release
 3. **Download directly**: Click the download button - GitHub automatically verifies signatures
 
