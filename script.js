@@ -12,6 +12,7 @@ class HomepageManager {
         this.initializeSearch();
         this.renderCards();
         this.bindEvents();
+        this.bindGlobalEvents();
     }
 
     loadCards() {
@@ -175,6 +176,9 @@ class HomepageManager {
 
         // Get modal elements
         const modal = document.getElementById('editLinkModal');
+        
+        // Show the modal
+        modal.classList.add('show');
         const nameInput = document.getElementById('editLinkName');
         const urlInput = document.getElementById('editLinkUrl');
         const saveBtn = document.getElementById('editLinkSave');
@@ -283,7 +287,14 @@ class HomepageManager {
             if (modal._escapeHandler) {
                 document.removeEventListener('keydown', modal._escapeHandler);
             }
-            modal.remove();
+            // Hide modal first
+            modal.classList.remove('show');
+            // Remove from DOM after a short delay to allow animation
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.remove();
+                }
+            }, 150);
         }
     }
 
@@ -428,6 +439,18 @@ class HomepageManager {
         });
     }
 
+    bindGlobalEvents() {
+        // Edit link button (using event delegation)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.link-edit-btn')) {
+                e.stopPropagation();
+                const cardId = e.target.closest('.link-edit-btn').dataset.cardId;
+                const linkIndex = parseInt(e.target.closest('.link-edit-btn').dataset.linkIndex);
+                this.editLink(cardId, linkIndex);
+            }
+        });
+    }
+
     bindCardEvents() {
         // Card title editing
         document.querySelectorAll('.card-title').forEach(input => {
@@ -459,16 +482,6 @@ class HomepageManager {
             btn.addEventListener('click', (e) => {
                 this.showDeleteCardConfirmation(e.target.closest('.delete-btn').dataset.cardId);
             });
-        });
-
-        // Edit link button (using event delegation)
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.link-edit-btn')) {
-                e.stopPropagation();
-                const cardId = e.target.closest('.link-edit-btn').dataset.cardId;
-                const linkIndex = parseInt(e.target.closest('.link-edit-btn').dataset.linkIndex);
-                this.editLink(cardId, linkIndex);
-            }
         });
 
         // Delete link button (using event delegation)

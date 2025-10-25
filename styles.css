@@ -743,6 +743,22 @@ body::before {
     color: #2d3748;
 }
 
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #718096;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
 .close-btn {
     width: 32px;
     height: 32px;
