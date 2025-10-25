@@ -350,9 +350,9 @@ class HomepageManager {
                 <div class="drag-handle" title="Drag to reorder or move to another card">
                     <i class="fas fa-grip-vertical"></i>
                 </div>
-                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
-                    <i class="${link.icon}"></i>
+                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0; justify-content: space-between;">
                     <span>${link.name}</span>
+                    <i class="${link.icon}"></i>
                 </a>
                 <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
                     <i class="fas fa-edit"></i>
@@ -494,6 +494,9 @@ class HomepageManager {
                 const cardId = linkItem.dataset.cardId;
                 const linkIndex = parseInt(linkItem.dataset.linkIndex);
                 
+                // Set allowed effects
+                e.dataTransfer.effectAllowed = 'move';
+                
                 e.dataTransfer.setData('text/plain', JSON.stringify({
                     cardId: cardId,
                     linkIndex: linkIndex
@@ -524,8 +527,12 @@ class HomepageManager {
 
         // Drag over
         document.addEventListener('dragover', (e) => {
+            // Always allow drop and set move effect
             e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
+            if (e.dataTransfer) {
+                e.dataTransfer.dropEffect = 'move';
+                e.dataTransfer.effectAllowed = 'move';
+            }
             
             const card = e.target.closest('.card');
             if (card && this.draggedElement) {
