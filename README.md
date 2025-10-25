@@ -1,6 +1,6 @@
-# 🏠 Custom Homepage - Dark Blue Theme
+# 🏠 Grouped Links - Modern Homepage Organizer
 
-A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link cards.
+A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link groups.
 
 ## ✨ Features
 

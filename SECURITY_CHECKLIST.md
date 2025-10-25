@@ -91,7 +91,7 @@
 ## 📞 **Emergency Contacts**
 
 ### **Security Issues**
-- **GitHub**: Use [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
+- **GitHub**: Use [Private Vulnerability Reporting](https://github.com/ponofinlayson/grouped-links/security/advisories/new)
 - **Response**: Within 24 hours for critical issues
 - **Scope**: Security vulnerabilities only
 

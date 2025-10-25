@@ -151,7 +151,7 @@ We follow responsible disclosure practices:
 ## Contact Information
 
 ### **Security Team**
-- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
+- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/ponofinlayson/grouped-links/security/advisories/new)
 - **GitHub**: [@ponofinlayson](https://github.com/ponofinlayson)
 - **Response Time**: 24-72 hours depending on severity
 

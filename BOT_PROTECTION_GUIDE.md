@@ -20,7 +20,7 @@
 ### **1. GitHub Private Vulnerability Reporting (Recommended)**
 ```markdown
 ### Security Issues
-- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
+- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/ponofinlayson/grouped-links/security/advisories/new)
 - **Benefits**: 
   - No email exposure
   - Encrypted communication
@@ -98,7 +98,7 @@
 ```markdown
 ## Security Contact
 - **Method**: GitHub Private Vulnerability Reporting
-- **URL**: https://github.com/ponofinlayson-web/custom-homepage/security/advisories/new
+- **URL**: https://github.com/ponofinlayson/grouped-links/security/advisories/new
 - **Response**: Within 24-72 hours
 - **Scope**: Security vulnerabilities only
 ```
@@ -128,7 +128,7 @@
 ## Contact Information
 
 ### Security Team
-- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
+- **Primary**: Use GitHub's [Private Vulnerability Reporting](https://github.com/ponofinlayson/grouped-links/security/advisories/new)
 - **GitHub**: [@ponofinlayson](https://github.com/ponofinlayson)
 - **Response Time**: 24-72 hours depending on severity
 
@@ -142,9 +142,9 @@
 ## Support
 
 ### Getting Help
-- **Issues**: [GitHub Issues](https://github.com/yourusername/custom-homepage/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/custom-homepage/discussions)
-- **Security**: [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
+- **Issues**: [GitHub Issues](https://github.com/ponofinlayson/grouped-links/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/ponofinlayson/grouped-links/discussions)
+- **Security**: [Private Vulnerability Reporting](https://github.com/ponofinlayson/grouped-links/security/advisories/new)
 ```
 
 ## 🚨 **Red Flags to Avoid**
