@@ -1,0 +1,24 @@
+/* Forest Green Theme */
+body {
+    background: linear-gradient(135deg, #134e5e 0%, #71b280 50%, #0f5132 100%) !important;
+}
+
+.header {
+    background: linear-gradient(135deg, rgba(19, 78, 94, 0.2) 0%, rgba(113, 178, 128, 0.15) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.card {
+    background: linear-gradient(315deg, rgba(19, 78, 94, 0.3) 0%, rgba(113, 178, 128, 0.25) 50%, rgba(15, 81, 50, 0.2) 100%) !important;
+    border: 1px solid rgba(19, 78, 94, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(19, 78, 94, 0.3) !important;
+}
+
+.link-item {
+    background: linear-gradient(315deg, rgba(19, 78, 94, 0.2) 0%, rgba(113, 178, 128, 0.15) 100%) !important;
+    border: 1px solid rgba(19, 78, 94, 0.3) !important;
+}
+
+.link-item:hover {
+    background: linear-gradient(315deg, #134e5e 0%, #71b280 100%) !important;
+}

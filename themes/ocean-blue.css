@@ -1,0 +1,24 @@
+/* Ocean Blue Theme */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+}
+
+.header {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.card {
+    background: linear-gradient(315deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%) !important;
+    border: 1px solid rgba(102, 126, 234, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
+}
+
+.link-item {
+    background: linear-gradient(315deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+    border: 1px solid rgba(102, 126, 234, 0.3) !important;
+}
+
+.link-item:hover {
+    background: linear-gradient(315deg, #667eea 0%, #764ba2 100%) !important;
+}

@@ -5,11 +5,14 @@ class HomepageManager {
         this.pendingDeletion = null;
         this.currentLinks = [];
         this.draggedElement = null;
+        this.themes = this.defineThemes();
+        this.currentTheme = this.loadTheme();
         this.init();
     }
 
     init() {
         this.initializeSearch();
+        this.loadThemeStyles();
         this.renderCards();
         this.bindEvents();
         this.bindGlobalEvents();
@@ -369,7 +372,7 @@ class HomepageManager {
                  data-aos="fade-up" 
                  data-aos-delay="${index * 100}" 
                  title="Ctrl + click to open - stay">
-                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit;">
+                <a href="${link.url}" target="_blank" class="link-main">
                     <i class="${link.icon}"></i>
                     <span>${link.name}</span>
                 </a>
@@ -477,6 +480,23 @@ class HomepageManager {
 
         document.getElementById('processBulkImport').addEventListener('click', () => {
             this.processBulkImport();
+        });
+
+        // Theme selector button
+        document.getElementById('themeBtn').addEventListener('click', () => {
+            this.showThemeModal();
+        });
+
+        // Theme modal close button
+        document.getElementById('closeThemeModal').addEventListener('click', () => {
+            this.hideThemeModal();
+        });
+
+        // Close theme modal on backdrop click
+        document.getElementById('themeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'themeModal') {
+                this.hideThemeModal();
+            }
         });
     }
 
@@ -1266,6 +1286,113 @@ class HomepageManager {
         if (domain.includes('code.visualstudio.com')) return 'fas fa-code';
         
         return 'fas fa-external-link-alt';
+    }
+
+    // Theme Management Methods
+    defineThemes() {
+        return [
+            {
+                id: 'default',
+                name: 'Default',
+                description: 'Original dark blue gradient theme',
+                preview: 'linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #475569 100%)',
+                css: ''
+            },
+            {
+                id: 'minimal',
+                name: 'Minimal Light',
+                description: 'Clean and minimal light theme',
+                preview: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
+                css: 'themes/minimal-light.css'
+            },
+            {
+                id: 'ocean',
+                name: 'Ocean Blue',
+                description: 'Fresh ocean-inspired theme',
+                preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                css: 'themes/ocean-blue.css'
+            },
+            {
+                id: 'sunset',
+                name: 'Sunset',
+                description: 'Warm sunset colors',
+                preview: 'linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #f5af19 100%)',
+                css: 'themes/sunset.css'
+            },
+            {
+                id: 'forest',
+                name: 'Forest Green',
+                description: 'Natural green tones',
+                preview: 'linear-gradient(135deg, #134e5e 0%, #71b280 50%, #0f5132 100%)',
+                css: 'themes/forest-green.css'
+            },
+            {
+                id: 'modern-dark',
+                name: 'Modern Dark',
+                description: 'Contemporary dark theme',
+                preview: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                css: 'themes/modern-dark.css'
+            }
+        ];
+    }
+
+    loadTheme() {
+        const savedTheme = localStorage.getItem('selected-theme');
+        return savedTheme || 'default';
+    }
+
+    saveTheme(themeId) {
+        localStorage.setItem('selected-theme', themeId);
+        this.currentTheme = themeId;
+    }
+
+    loadThemeStyles() {
+        const theme = this.themes.find(t => t.id === this.currentTheme);
+        if (theme && theme.css) {
+            const linkElement = document.getElementById('theme-css');
+            if (linkElement) {
+                linkElement.href = theme.css;
+            }
+        }
+    }
+
+    showThemeModal() {
+        const modal = document.getElementById('themeModal');
+        const grid = document.getElementById('themeGrid');
+        
+        // Clear existing theme cards
+        grid.innerHTML = '';
+        
+        // Create theme cards
+        this.themes.forEach(theme => {
+            const card = document.createElement('div');
+            card.className = `theme-card ${theme.id === this.currentTheme ? 'active' : ''}`;
+            card.innerHTML = `
+                <div class="theme-preview" style="background: ${theme.preview}"></div>
+                <div class="theme-name">${theme.name}</div>
+                <div class="theme-description">${theme.description}</div>
+            `;
+            card.addEventListener('click', () => this.selectTheme(theme.id));
+            grid.appendChild(card);
+        });
+        
+        modal.classList.add('show');
+    }
+
+    hideThemeModal() {
+        document.getElementById('themeModal').classList.remove('show');
+    }
+
+    selectTheme(themeId) {
+        this.saveTheme(themeId);
+        this.loadThemeStyles();
+        this.hideThemeModal();
+        
+        // Update active state in modal
+        document.querySelectorAll('.theme-card').forEach(card => {
+            card.classList.remove('active');
+        });
+        event.target.closest('.theme-card')?.classList.add('active');
     }
 }
 

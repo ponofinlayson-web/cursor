@@ -1,0 +1,24 @@
+/* Sunset Theme */
+body {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #f5af19 100%) !important;
+}
+
+.header {
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.2) 0%, rgba(245, 87, 108, 0.15) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.card {
+    background: linear-gradient(315deg, rgba(240, 147, 251, 0.3) 0%, rgba(245, 87, 108, 0.25) 50%, rgba(245, 175, 25, 0.2) 100%) !important;
+    border: 1px solid rgba(240, 147, 251, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(240, 147, 251, 0.3) !important;
+}
+
+.link-item {
+    background: linear-gradient(315deg, rgba(240, 147, 251, 0.2) 0%, rgba(245, 87, 108, 0.15) 100%) !important;
+    border: 1px solid rgba(240, 147, 251, 0.3) !important;
+}
+
+.link-item:hover {
+    background: linear-gradient(315deg, #f093fb 0%, #f5576c 100%) !important;
+}
