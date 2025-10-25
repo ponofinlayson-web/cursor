@@ -147,16 +147,22 @@ class HomepageManager {
                         <h3>Edit Link</h3>
                         <button class="modal-close" id="editLinkModalClose">&times;</button>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="editLinkName">Link Name:</label>
-                            <input type="text" id="editLinkName" value="${link.name}" placeholder="Enter link name">
-                        </div>
-                        <div class="form-group">
-                            <label for="editLinkUrl">URL:</label>
-                            <input type="url" id="editLinkUrl" value="${link.url}" placeholder="https://example.com">
-                        </div>
-                    </div>
+                                         <div class="modal-body">
+                         <div class="form-group">
+                             <label for="editLinkName">Link Name:</label>
+                             <input type="text" id="editLinkName" value="${link.name}" placeholder="Enter link name">
+                         </div>
+                         <div class="form-group">
+                             <label for="editLinkUrl">URL:</label>
+                             <input type="url" id="editLinkUrl" value="${link.url}" placeholder="https://example.com">
+                         </div>
+                         <div class="form-group">
+                             <label for="editLinkCard">Group:</label>
+                             <select id="editLinkCard" style="width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                                 ${this.cards.map(c => `<option value="${c.id}" ${c.id === cardId ? 'selected' : ''}>${c.title}</option>`).join('')}
+                             </select>
+                         </div>
+                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger" id="editLinkDelete">Delete</button>
                         <button class="btn btn-secondary" id="editLinkCancel">Cancel</button>
@@ -182,6 +188,7 @@ class HomepageManager {
         modal.classList.add('show');
         const nameInput = document.getElementById('editLinkName');
         const urlInput = document.getElementById('editLinkUrl');
+        const cardSelect = document.getElementById('editLinkCard');
         const saveBtn = document.getElementById('editLinkSave');
         const cancelBtn = document.getElementById('editLinkCancel');
         const deleteBtn = document.getElementById('editLinkDelete');
@@ -195,6 +202,7 @@ class HomepageManager {
         const handleSave = () => {
             const newName = nameInput.value.trim();
             const newUrl = urlInput.value.trim();
+            const newCardId = cardSelect.value;
 
             if (!newName) {
                 alert('Please enter a link name');
@@ -217,14 +225,29 @@ class HomepageManager {
                 return;
             }
 
-            // Update the link
+            // Find the current card and link
             const card = this.cards.find(c => c.id === cardId);
             if (card && card.links[linkIndex]) {
-                card.links[linkIndex] = {
+                const updatedLink = {
                     name: newName,
                     url: newUrl,
                     icon: this.getIconForUrl(newUrl)
                 };
+
+                // If moving to a different group
+                if (newCardId !== cardId) {
+                    // Remove from current card
+                    card.links.splice(linkIndex, 1);
+                    
+                    // Add to new card
+                    const newCard = this.cards.find(c => c.id === newCardId);
+                    if (newCard) {
+                        newCard.links.push(updatedLink);
+                    }
+                } else {
+                    // Update in place
+                    card.links[linkIndex] = updatedLink;
+                }
 
                 this.saveCards();
                 this.renderCards();
@@ -340,17 +363,13 @@ class HomepageManager {
 
     createCardHTML(card) {
         const linksHTML = card.links.map((link, index) => `
-            <div class="link-item hvr-float draggable" 
+            <div class="link-item hvr-float" 
                  data-card-id="${card.id}" 
                  data-link-index="${index}" 
                  data-aos="fade-up" 
                  data-aos-delay="${index * 100}" 
-                 title="Ctrl + click to open - stay"
-                 draggable="true">
-                <div class="drag-handle" title="Drag to reorder or move to another card">
-                    <i class="fas fa-grip-vertical"></i>
-                </div>
-                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0; justify-content: space-between;">
+                 title="Ctrl + click to open - stay">
+                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0; justify-content: space-between; padding: 8px;">
                     <span>${link.name}</span>
                     <i class="${link.icon}"></i>
                 </a>
@@ -482,8 +501,7 @@ class HomepageManager {
             }
         });
 
-        // Drag and drop functionality
-        this.setupDragAndDrop();
+                 // Drag and drop functionality removed
     }
 
     setupDragAndDrop() {
