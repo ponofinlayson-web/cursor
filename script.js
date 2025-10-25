@@ -323,8 +323,17 @@ class HomepageManager {
 
     createCardHTML(card) {
         const linksHTML = card.links.map((link, index) => `
-            <div class="link-item hvr-float" data-card-id="${card.id}" data-link-index="${index}" data-aos="fade-up" data-aos-delay="${index * 100}" title="Ctrl + click to open - stay">
+            <div class="link-item hvr-float draggable" 
+                 data-card-id="${card.id}" 
+                 data-link-index="${index}" 
+                 data-aos="fade-up" 
+                 data-aos-delay="${index * 100}" 
+                 title="Ctrl + click to open - stay"
+                 draggable="true">
                 <div class="link-content">
+                    <div class="drag-handle" title="Drag to reorder or move to another card">
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
                     <a href="${link.url}" target="_blank" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
                         <i class="${link.icon}"></i>
                         <span>${link.name}</span>
@@ -460,6 +469,100 @@ class HomepageManager {
                 const cardId = e.target.closest('.add-link-btn').dataset.cardId;
                 console.log('Add link button clicked for card:', cardId);
                 this.showAddLinkDialog(cardId);
+            }
+        });
+
+        // Drag and drop functionality
+        this.setupDragAndDrop();
+    }
+
+    setupDragAndDrop() {
+        // Drag start
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.closest('.draggable')) {
+                const linkItem = e.target.closest('.draggable');
+                const cardId = linkItem.dataset.cardId;
+                const linkIndex = parseInt(linkItem.dataset.linkIndex);
+                
+                e.dataTransfer.setData('text/plain', JSON.stringify({
+                    cardId: cardId,
+                    linkIndex: linkIndex
+                }));
+                
+                linkItem.classList.add('dragging');
+                this.draggedElement = linkItem;
+                
+                console.log('Drag started:', { cardId, linkIndex });
+            }
+        });
+
+        // Drag end
+        document.addEventListener('dragend', (e) => {
+            if (e.target.closest('.draggable')) {
+                const linkItem = e.target.closest('.draggable');
+                linkItem.classList.remove('dragging');
+                this.draggedElement = null;
+                
+                // Remove all drop indicators
+                document.querySelectorAll('.drop-target').forEach(target => {
+                    target.classList.remove('drop-target');
+                });
+                
+                console.log('Drag ended');
+            }
+        });
+
+        // Drag over
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            
+            const card = e.target.closest('.card');
+            if (card && this.draggedElement) {
+                const cardId = card.dataset.cardId;
+                const draggedCardId = this.draggedElement.dataset.cardId;
+                
+                // Add drop indicator to card
+                if (cardId !== draggedCardId) {
+                    card.classList.add('drop-target');
+                }
+            }
+        });
+
+        // Drag leave
+        document.addEventListener('dragleave', (e) => {
+            const card = e.target.closest('.card');
+            if (card) {
+                card.classList.remove('drop-target');
+            }
+        });
+
+        // Drop
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            
+            const card = e.target.closest('.card');
+            if (card && this.draggedElement) {
+                const targetCardId = card.dataset.cardId;
+                const draggedCardId = this.draggedElement.dataset.cardId;
+                
+                // Remove drop indicator
+                card.classList.remove('drop-target');
+                
+                try {
+                    const dragData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    const sourceCardId = dragData.cardId;
+                    const sourceLinkIndex = dragData.linkIndex;
+                    
+                    if (sourceCardId === targetCardId) {
+                        // Same card - reorder
+                        this.reorderLinkInCard(sourceCardId, sourceLinkIndex, targetCardId);
+                    } else {
+                        // Different card - move link
+                        this.moveLinkBetweenCards(sourceCardId, sourceLinkIndex, targetCardId);
+                    }
+                } catch (error) {
+                    console.error('Error handling drop:', error);
+                }
             }
         });
     }
@@ -706,6 +809,43 @@ class HomepageManager {
                 }
             }, 150);
         }
+    }
+
+    reorderLinkInCard(cardId, fromIndex, toCardId) {
+        const card = this.cards.find(c => c.id === cardId);
+        if (!card || fromIndex < 0 || fromIndex >= card.links.length) return;
+
+        // For same card reordering, we'll move to the end for now
+        // In a more advanced implementation, you could detect drop position
+        const link = card.links[fromIndex];
+        card.links.splice(fromIndex, 1);
+        card.links.push(link);
+
+        this.saveCards();
+        this.renderCards();
+        
+        console.log('Link reordered in card:', cardId);
+    }
+
+    moveLinkBetweenCards(sourceCardId, sourceLinkIndex, targetCardId) {
+        const sourceCard = this.cards.find(c => c.id === sourceCardId);
+        const targetCard = this.cards.find(c => c.id === targetCardId);
+        
+        if (!sourceCard || !targetCard || sourceLinkIndex < 0 || sourceLinkIndex >= sourceCard.links.length) {
+            console.error('Invalid move operation');
+            return;
+        }
+
+        // Remove link from source card
+        const link = sourceCard.links.splice(sourceLinkIndex, 1)[0];
+        
+        // Add link to target card
+        targetCard.links.push(link);
+
+        this.saveCards();
+        this.renderCards();
+        
+        console.log('Link moved from', sourceCardId, 'to', targetCardId);
     }
 
     renderLinksContainer() {

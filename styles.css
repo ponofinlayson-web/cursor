@@ -520,6 +520,50 @@ body::before {
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
 }
 
+/* Drag and Drop Styles */
+.draggable {
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    z-index: 1000;
+}
+
+.drop-target {
+    border: 2px dashed rgba(34, 197, 94, 0.6);
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.drag-handle {
+    color: rgba(255, 255, 255, 0.6);
+    cursor: grab;
+    padding: 4px;
+    margin-right: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drag-handle:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
 /* Links - Ultra Compact Design */
 .card-links {
     display: grid;
