@@ -20,7 +20,7 @@ A beautiful, modern homepage for Chromium-based browsers featuring a dark blue g
 - **Quick Link Addition**: Click anywhere on a card to add links
 - **Dual Click Options**: 
   - Click main link area to navigate normally
-  - Click external link icon (🔗) to open in background tab
+  - Ctrl + click tooltip
 - **Drag & Drop**: Reorder links within cards
 - **Bulk Import**: Add multiple links at once
 - **Real-time Validation**: URL validation and favicon detection
@@ -147,7 +147,7 @@ This package is code-signed for authenticity. Always verify the signature before
 ### **Simplest Verification Method (All OS)**
 
 #### **For GitHub Releases:**
-1. **Download from GitHub**: Go to the [Releases page](https://github.com/yourusername/custom-homepage/releases)
+1. **Download from GitHub**: Go to the [Releases page](https://github.com/ponofinlayson-web/custom-homepage/releases)
 2. **Check "Verified" badge**: Look for the green "Verified" badge next to the release
 3. **Download directly**: Click the download button - GitHub automatically verifies signatures
 
