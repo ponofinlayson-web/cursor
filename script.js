@@ -356,6 +356,7 @@ class HomepageManager {
                 </div>
                 <div class="card-links">
                     ${linksHTML}
+                    ${card.links.length === 0 ? '<div class="empty-card-hint">Click here to add links</div>' : ''}
                 </div>
             </div>
         `;
@@ -449,6 +450,29 @@ class HomepageManager {
                 this.editLink(cardId, linkIndex);
             }
         });
+
+        // Card click to add link (using event delegation)
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            if (card) {
+                // Check if clicking on interactive elements
+                const isInteractiveElement = e.target.closest('.card-actions') || 
+                                           e.target.closest('.link-item') || 
+                                           e.target.closest('.card-title') ||
+                                           e.target.closest('.card-links') ||
+                                           e.target.closest('button') ||
+                                           e.target.closest('a') ||
+                                           e.target.closest('input');
+                
+                if (!isInteractiveElement) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const cardId = card.dataset.cardId;
+                    console.log('Card clicked for adding link:', cardId); // Debug log
+                    this.showAddLinkDialog(cardId);
+                }
+            }
+        });
     }
 
     bindCardEvents() {
@@ -494,19 +518,7 @@ class HomepageManager {
             }
         });
 
-        // Card click to add link
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                // Only trigger if not clicking on interactive elements AND there's empty space
-                if (!e.target.closest('.card-actions') && 
-                    !e.target.closest('.link-item') && 
-                    !e.target.closest('.card-title') &&
-                    !e.target.closest('.card-links')) {
-                    const cardId = e.currentTarget.dataset.cardId;
-                    this.showAddLinkDialog(cardId);
-                }
-            });
-        });
+        // Card click to add link - moved to global events to prevent duplication
     }
 
     showAddCardModal() {
@@ -535,20 +547,32 @@ class HomepageManager {
 
     showAddLinkDialog(cardId) {
         const card = this.cards.find(c => c.id === cardId);
-        if (!card) return;
+        if (!card) {
+            console.error('Card not found:', cardId);
+            return;
+        }
+
+        console.log('Showing add link dialog for card:', card.title);
 
         // Create a simple prompt dialog
         const linkName = prompt(`Add link to "${card.title}"\n\nEnter link name:`);
-        if (!linkName || !linkName.trim()) return;
+        if (!linkName || !linkName.trim()) {
+            console.log('Link name cancelled or empty');
+            return;
+        }
 
         const linkUrl = prompt(`Enter URL for "${linkName}":`);
-        if (!linkUrl || !linkUrl.trim()) return;
+        if (!linkUrl || !linkUrl.trim()) {
+            console.log('Link URL cancelled or empty');
+            return;
+        }
 
         // Validate URL
         try {
             new URL(linkUrl);
         } catch {
             alert('Please enter a valid URL (e.g., https://example.com)');
+            console.log('Invalid URL entered:', linkUrl);
             return;
         }
 
@@ -562,6 +586,8 @@ class HomepageManager {
         card.links.push(newLink);
         this.saveCards();
         this.renderCards();
+        
+        console.log('Link added successfully:', newLink);
     }
 
     renderLinksContainer() {
