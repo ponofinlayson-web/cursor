@@ -91,13 +91,13 @@
 ## 📞 **Emergency Contacts**
 
 ### **Security Issues**
-- **Email**: security@example.com
-- **GitHub**: Create a security issue
+- **GitHub**: Use [Private Vulnerability Reporting](https://github.com/yourusername/custom-homepage/security/advisories/new)
 - **Response**: Within 24 hours for critical issues
+- **Scope**: Security vulnerabilities only
 
 ### **General Support**
-- **GitHub Issues**: Use the issue tracker
-- **Email**: support@example.com
+- **GitHub Issues**: Use the issue tracker with appropriate labels
+- **GitHub Discussions**: Use for community support
 - **Response**: Within 72 hours
 
 ## 📋 **Quick Security Summary**
