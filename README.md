@@ -140,6 +140,56 @@ The homepage uses a sophisticated dark blue theme:
 
 This project is open source and free to use, modify, and distribute.
 
+## 🔐 Security & Signature Verification
+
+This package is code-signed for authenticity. Always verify the signature before installation.
+
+### **Simplest Verification Method (All OS)**
+
+#### **For GitHub Releases:**
+1. **Download from GitHub**: Go to the [Releases page](https://github.com/yourusername/custom-homepage/releases)
+2. **Check "Verified" badge**: Look for the green "Verified" badge next to the release
+3. **Download directly**: Click the download button - GitHub automatically verifies signatures
+
+#### **For Manual Verification:**
+1. **Download the package** and signature files:
+   - `custom-homepage-dark-blue-v1.1.0.zip`
+   - `custom-homepage-dark-blue-v1.1.0.zip.asc` (signature)
+   - `custom-homepage-dark-blue-v1.1.0.zip.sha256` (checksum)
+
+2. **Verify checksum** (works on all OS):
+   ```bash
+   # Windows (PowerShell)
+   Get-FileHash custom-homepage-dark-blue-v1.1.0.zip -Algorithm SHA256
+   
+   # Mac/Linux
+   shasum -a 256 custom-homepage-dark-blue-v1.1.0.zip
+   
+   # Compare with the .sha256 file content
+   ```
+
+3. **Verify signature** (if you have GPG):
+   ```bash
+   # Import GitHub's public key
+   gpg --keyserver keyserver.ubuntu.com --recv-keys [KEY_ID]
+   
+   # Verify signature
+   gpg --verify custom-homepage-dark-blue-v1.1.0.zip.asc
+   ```
+
+#### **What to Look For:**
+- ✅ **GitHub "Verified" badge** - Automatic verification
+- ✅ **Checksum matches** - File integrity confirmed
+- ✅ **GPG signature valid** - Authenticity confirmed
+- ❌ **No "Verified" badge** - Download from official source only
+- ❌ **Checksum mismatch** - File may be corrupted or tampered with
+
+#### **Trust Indicators:**
+- **Green "Verified" badge** on GitHub releases
+- **Matching checksums** when manually verified
+- **Valid GPG signature** (if using GPG)
+- **Download from official GitHub repository only**
+
 ## 🤝 Contributing
 
 Feel free to submit issues, feature requests, or pull requests to improve the homepage!
@@ -152,4 +202,4 @@ Feel free to submit issues, feature requests, or pull requests to improve the ho
 
 **Author**: Pono Finlayson  
 **License**: MIT  
-**Version**: 1.0.0
+**Version**: 1.1.0
