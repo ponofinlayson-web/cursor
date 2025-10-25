@@ -346,6 +346,9 @@ class HomepageManager {
                 <div class="card-header">
                     <input type="text" class="card-title" value="${card.title}" data-card-id="${card.id}">
                     <div class="card-actions">
+                        <button class="action-btn add-link-btn hvr-pulse" data-card-id="${card.id}" title="Add Link">
+                            <i class="fas fa-plus"></i>
+                        </button>
                         <button class="action-btn edit-btn hvr-pulse" data-card-id="${card.id}" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -356,7 +359,6 @@ class HomepageManager {
                 </div>
                 <div class="card-links">
                     ${linksHTML}
-                    ${card.links.length === 0 ? '<div class="empty-card-hint">Click here to add links</div>' : ''}
                 </div>
             </div>
         `;
@@ -451,26 +453,13 @@ class HomepageManager {
             }
         });
 
-        // Card click to add link (using event delegation)
+        // Add link button (using event delegation)
         document.addEventListener('click', (e) => {
-            const card = e.target.closest('.card');
-            if (card) {
-                // Check if clicking on interactive elements
-                const isInteractiveElement = e.target.closest('.card-actions') || 
-                                           e.target.closest('.link-item') || 
-                                           e.target.closest('.card-title') ||
-                                           e.target.closest('.card-links') ||
-                                           e.target.closest('button') ||
-                                           e.target.closest('a') ||
-                                           e.target.closest('input');
-                
-                if (!isInteractiveElement) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const cardId = card.dataset.cardId;
-                    console.log('Card clicked for adding link:', cardId); // Debug log
-                    this.showAddLinkDialog(cardId);
-                }
+            if (e.target.closest('.add-link-btn')) {
+                e.stopPropagation();
+                const cardId = e.target.closest('.add-link-btn').dataset.cardId;
+                console.log('Add link button clicked for card:', cardId);
+                this.showAddLinkDialog(cardId);
             }
         });
     }

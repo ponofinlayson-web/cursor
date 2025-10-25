@@ -508,6 +508,18 @@ body::before {
     box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
 }
 
+.add-link-btn {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(16, 185, 129, 0.8) 100%);
+    color: white;
+    border: 1px solid rgba(34, 197, 94, 0.5);
+}
+
+.add-link-btn:hover {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 1) 0%, rgba(16, 185, 129, 0.9) 100%);
+    transform: scale(1.15) translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
 /* Links - Ultra Compact Design */
 .card-links {
     display: grid;
@@ -517,25 +529,6 @@ body::before {
     min-height: 120px;
 }
 
-.empty-card-hint {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.875rem;
-    font-style: italic;
-    padding: 20px 10px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    margin: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    grid-column: 1 / -1;
-}
-
-.empty-card-hint:hover {
-    color: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.05);
-}
 
 
 .link-item {
