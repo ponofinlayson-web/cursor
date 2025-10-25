@@ -640,7 +640,7 @@ body::before {
     opacity: 1;
 }
 
-.link-new-tab-btn {
+.link-edit-btn {
     width: 20px;
     height: 20px;
     border: none;
@@ -658,10 +658,10 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.link-new-tab-btn:hover {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+.link-edit-btn:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     transform: scale(1.2);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
 }
 
 .link-delete-btn {

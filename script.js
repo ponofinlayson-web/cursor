@@ -127,9 +127,37 @@ class HomepageManager {
         }
     }
 
-    openInNewTab(url) {
-        // Open link in new tab without switching to it
-        window.open(url, '_blank');
+    editLink(cardId, linkIndex) {
+        const card = this.cards.find(c => c.id === cardId);
+        if (!card || !card.links[linkIndex]) return;
+
+        const link = card.links[linkIndex];
+        
+        // Prompt for new name
+        const newName = prompt(`Edit link name:`, link.name);
+        if (!newName || newName.trim() === '') return;
+
+        // Prompt for new URL
+        const newUrl = prompt(`Edit URL:`, link.url);
+        if (!newUrl || newUrl.trim() === '') return;
+
+        // Validate URL
+        try {
+            new URL(newUrl);
+        } catch {
+            alert('Please enter a valid URL (e.g., https://example.com)');
+            return;
+        }
+
+        // Update the link
+        card.links[linkIndex] = {
+            name: newName.trim(),
+            url: newUrl.trim(),
+            icon: this.getIconForUrl(newUrl.trim())
+        };
+
+        this.saveCards();
+        this.renderCards();
     }
 
     sortCards() {
@@ -157,7 +185,7 @@ class HomepageManager {
 
     createCardHTML(card) {
         const linksHTML = card.links.map((link, index) => `
-            <div class="link-item hvr-float" data-card-id="${card.id}" data-link-index="${index}" data-aos="fade-up" data-aos-delay="${index * 100}">
+            <div class="link-item hvr-float" data-card-id="${card.id}" data-link-index="${index}" data-aos="fade-up" data-aos-delay="${index * 100}" title="Ctrl + click to open - stay">
                 <div class="link-content">
                     <a href="${link.url}" target="_blank" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
                         <i class="${link.icon}"></i>
@@ -165,8 +193,8 @@ class HomepageManager {
                     </a>
                 </div>
                 <div class="link-actions">
-                    <button class="link-new-tab-btn" data-url="${link.url}" title="Open in new tab (stays on homepage)">
-                        <i class="fas fa-external-link-alt"></i>
+                    <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
+                        <i class="fas fa-edit"></i>
                     </button>
                     <button class="link-delete-btn" data-card-id="${card.id}" data-link-index="${index}" title="Delete link">
                         <i class="fas fa-times"></i>
@@ -292,12 +320,13 @@ class HomepageManager {
             });
         });
 
-        // New tab button (using event delegation)
+        // Edit link button (using event delegation)
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.link-new-tab-btn')) {
+            if (e.target.closest('.link-edit-btn')) {
                 e.stopPropagation();
-                const url = e.target.closest('.link-new-tab-btn').dataset.url;
-                this.openInNewTab(url);
+                const cardId = e.target.closest('.link-edit-btn').dataset.cardId;
+                const linkIndex = parseInt(e.target.closest('.link-edit-btn').dataset.linkIndex);
+                this.editLink(cardId, linkIndex);
             }
         });
 
