@@ -369,9 +369,9 @@ class HomepageManager {
                  data-aos="fade-up" 
                  data-aos-delay="${index * 100}" 
                  title="Ctrl + click to open - stay">
-                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0; justify-content: space-between; padding: 8px;">
-                    <span>${link.name}</span>
+                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit;">
                     <i class="${link.icon}"></i>
+                    <span>${link.name}</span>
                 </a>
                 <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
                     <i class="fas fa-edit"></i>

@@ -559,8 +559,8 @@ body::before {
 .link-item {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px;
+    gap: 0;
+    padding: 0;
     background: linear-gradient(315deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
     border-radius: 10px;
     text-decoration: none;
@@ -681,10 +681,20 @@ body::before {
 .link-main {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex: 1;
     min-width: 0;
-    gap: 12px;
+    padding: 8px;
+    height: 100%;
+    width: 90%;
+    gap: 8px;
+}
+
+.link-main i {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    opacity: 0.95;
 }
 
 .link-main span {
@@ -697,19 +707,11 @@ body::before {
     text-align: left;
 }
 
-.link-main i {
-    font-size: 22px;
-    flex-shrink: 0;
-    width: 28px;
-    text-align: center;
-    opacity: 0.95;
-}
-
 .link-edit-btn {
-    width: 32px;
-    height: 32px;
+    width: 10%;
+    height: 100%;
     border: none;
-    border-radius: 6px;
+    border-radius: 0 10px 10px 0;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
     color: white;
     cursor: pointer;
@@ -720,9 +722,9 @@ body::before {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     opacity: 0.5;
-    margin-left: 2px;
+    margin: 0;
 }
 
 .link-edit-btn:hover {
