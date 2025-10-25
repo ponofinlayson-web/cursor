@@ -1,0 +1,121 @@
+name: Release and Sign
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Configure Git
+      run: |
+        git config --global user.name "Pono Finlayson"
+        git config --global user.email "pono@example.com"
+    
+    - name: Create distribution package
+      run: |
+        # Create dist directory
+        mkdir -p dist
+        
+        # Copy core files
+        cp index.html dist/
+        cp styles.css dist/
+        cp script.js dist/
+        cp manifest.json dist/
+        cp package.json dist/
+        cp README.md dist/
+        cp QUICKSTART.md dist/
+        cp install.bat dist/
+        cp install.sh dist/
+        cp install.js dist/
+        
+        # Create ZIP package
+        cd dist
+        zip -r ../custom-homepage-dark-blue-v${{ github.ref_name }}.zip .
+        cd ..
+    
+    - name: Sign package with GPG
+      run: |
+        # Import GPG key (you'll need to add your GPG private key to secrets)
+        echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
+        
+        # Sign the package
+        gpg --armor --detach-sign custom-homepage-dark-blue-v${{ github.ref_name }}.zip
+        
+        # Create checksums
+        sha256sum custom-homepage-dark-blue-v${{ github.ref_name }}.zip > custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
+        sha512sum custom-homepage-dark-blue-v${{ github.ref_name }}.zip > custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha512
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          custom-homepage-dark-blue-v${{ github.ref_name }}.zip
+          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.asc
+          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
+          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha512
+        body: |
+          # Custom Homepage v${{ github.ref_name }}
+          
+          A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link cards.
+          
+          ## ✨ Features
+          
+          - **Dark Blue Theme**: Sophisticated slate gradient background
+          - **Google Search**: Built-in search bar that opens results in new tabs
+          - **Smart Cards**: 4x3 grid layout with alphabetical sorting
+          - **Quick Link Addition**: Click anywhere on a card to add links
+          - **Edit Links**: Click edit icon to modify link names and URLs
+          - **Ctrl+Click**: Hold Ctrl and click links to open in background tabs
+          - **Mobile Responsive**: Works perfectly on all devices
+          - **Local Storage**: All data saved locally in your browser
+          
+          ## 🔐 Verification
+          
+          This release is signed with GPG for authenticity. To verify:
+          
+          ```bash
+          # Import the public key
+          gpg --keyserver keyserver.ubuntu.com --recv-keys [KEY_ID]
+          
+          # Verify the signature
+          gpg --verify custom-homepage-dark-blue-v${{ github.ref_name }}.zip.asc
+          
+          # Verify checksums
+          sha256sum -c custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
+          ```
+          
+          ## 🚀 Installation
+          
+          1. Download the ZIP file
+          2. Extract to any folder
+          3. Double-click `index.html`
+          4. Set as homepage in your browser settings
+          
+          ## 📄 License
+          
+          MIT License - Free to use, modify, and distribute.
+          
+          ---
+          
+          **Author**: Pono Finlayson  
+          **License**: MIT  
+          **Version**: ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

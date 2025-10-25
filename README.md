@@ -147,3 +147,9 @@ Feel free to submit issues, feature requests, or pull requests to improve the ho
 ---
 
 **Enjoy your beautiful, functional homepage! 🎉**
+
+---
+
+**Author**: Pono Finlayson  
+**License**: MIT  
+**Version**: 1.0.0
