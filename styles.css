@@ -544,19 +544,22 @@ body::before {
 }
 
 .drag-handle {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.4);
     cursor: grab;
-    padding: 4px;
-    margin-right: 8px;
+    padding: 2px;
     border-radius: 4px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
 .drag-handle:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.7);
     background: rgba(255, 255, 255, 0.1);
 }
 
@@ -578,18 +581,18 @@ body::before {
 .link-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 8px;
+    gap: 8px;
+    padding: 8px;
     background: linear-gradient(315deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
     border-radius: 10px;
     text-decoration: none;
     color: rgba(255, 255, 255, 0.95);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(59, 130, 246, 0.2);
     position: relative;
-    min-height: 32px;
+    min-height: 40px;
     backdrop-filter: blur(20px);
     overflow: hidden;
     animation: linkGlow 4s ease-in-out infinite;
@@ -697,28 +700,53 @@ body::before {
     opacity: 1;
 }
 
+.link-main {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: 8px;
+}
+
+.link-main i {
+    font-size: 14px;
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+}
+
+.link-main span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    font-weight: 500;
+}
+
 .link-edit-btn {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border: none;
-    border-radius: 50%;
+    border-radius: 6px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 8px;
+    font-size: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0.7;
 }
 
 .link-edit-btn:hover {
     background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    transform: scale(1.2);
+    transform: scale(1.05);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    opacity: 1;
 }
 
 .link-delete-btn {
@@ -814,6 +842,24 @@ body::before {
 .modal-close:hover {
     background: #e2e8f0;
     color: #2d3748;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
 }
 
 .close-btn {

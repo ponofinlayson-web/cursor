@@ -158,6 +158,7 @@ class HomepageManager {
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-danger" id="editLinkDelete">Delete</button>
                         <button class="btn btn-secondary" id="editLinkCancel">Cancel</button>
                         <button class="btn btn-primary" id="editLinkSave">Save</button>
                     </div>
@@ -183,6 +184,7 @@ class HomepageManager {
         const urlInput = document.getElementById('editLinkUrl');
         const saveBtn = document.getElementById('editLinkSave');
         const cancelBtn = document.getElementById('editLinkCancel');
+        const deleteBtn = document.getElementById('editLinkDelete');
         const closeBtn = document.getElementById('editLinkModalClose');
 
         // Focus on name input
@@ -237,9 +239,24 @@ class HomepageManager {
             this.hideEditLinkModal();
         };
 
+        // Handle delete
+        const handleDelete = () => {
+            if (confirm('Are you sure you want to delete this link?')) {
+                const card = this.cards.find(c => c.id === cardId);
+                if (card && card.links[linkIndex]) {
+                    card.links.splice(linkIndex, 1);
+                    this.saveCards();
+                    this.renderCards();
+                    console.log('Link deleted successfully');
+                }
+                this.hideEditLinkModal();
+            }
+        };
+
         // Event listeners
         saveBtn.addEventListener('click', handleSave);
         cancelBtn.addEventListener('click', handleCancel);
+        deleteBtn.addEventListener('click', handleDelete);
         closeBtn.addEventListener('click', handleCancel);
 
         // Handle Enter key in inputs
@@ -330,23 +347,16 @@ class HomepageManager {
                  data-aos-delay="${index * 100}" 
                  title="Ctrl + click to open - stay"
                  draggable="true">
-                <div class="link-content">
-                    <div class="drag-handle" title="Drag to reorder or move to another card">
-                        <i class="fas fa-grip-vertical"></i>
-                    </div>
-                    <a href="${link.url}" target="_blank" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
-                        <i class="${link.icon}"></i>
-                        <span>${link.name}</span>
-                    </a>
+                <div class="drag-handle" title="Drag to reorder or move to another card">
+                    <i class="fas fa-grip-vertical"></i>
                 </div>
-                <div class="link-actions">
-                    <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="link-delete-btn" data-card-id="${card.id}" data-link-index="${index}" title="Delete link">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+                <a href="${link.url}" target="_blank" class="link-main" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
+                    <i class="${link.icon}"></i>
+                    <span>${link.name}</span>
+                </a>
+                <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
+                    <i class="fas fa-edit"></i>
+                </button>
             </div>
         `).join('');
 
@@ -515,6 +525,7 @@ class HomepageManager {
         // Drag over
         document.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
             
             const card = e.target.closest('.card');
             if (card && this.draggedElement) {
@@ -600,15 +611,7 @@ class HomepageManager {
             });
         });
 
-        // Delete link button (using event delegation)
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.link-delete-btn')) {
-                e.stopPropagation();
-                const cardId = e.target.closest('.link-delete-btn').dataset.cardId;
-                const linkIndex = parseInt(e.target.closest('.link-delete-btn').dataset.linkIndex);
-                this.showDeleteLinkConfirmation(cardId, linkIndex);
-            }
-        });
+        // Delete link functionality moved to edit modal
 
         // Card click to add link - moved to global events to prevent duplication
     }
