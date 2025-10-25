@@ -31,14 +31,12 @@ jobs:
         # Create dist directory
         mkdir -p dist
         
-        # Copy core files
+        # Copy core files only (exclude documentation to preserve signatures)
         cp index.html dist/
         cp styles.css dist/
         cp script.js dist/
         cp manifest.json dist/
         cp package.json dist/
-        cp README.md dist/
-        cp QUICKSTART.md dist/
         cp install.bat dist/
         cp install.sh dist/
         cp install.js dist/
