@@ -542,41 +542,170 @@ class HomepageManager {
         }
 
         console.log('Showing add link dialog for card:', card.title);
+        
+        // Create add link form modal (same as edit link modal)
+        this.showAddLinkModal(cardId, card);
+    }
 
-        // Create a simple prompt dialog
-        const linkName = prompt(`Add link to "${card.title}"\n\nEnter link name:`);
-        if (!linkName || !linkName.trim()) {
-            console.log('Link name cancelled or empty');
-            return;
+    showAddLinkModal(cardId, card) {
+        // Create modal HTML (same structure as edit link modal)
+        const modalHTML = `
+            <div class="modal" id="addLinkModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add Link to "${card.title}"</h3>
+                        <button class="modal-close" id="addLinkModalClose">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="addLinkName">Link Name:</label>
+                            <input type="text" id="addLinkName" placeholder="Enter link name">
+                        </div>
+                        <div class="form-group">
+                            <label for="addLinkUrl">URL:</label>
+                            <input type="url" id="addLinkUrl" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="addLinkCancel">Cancel</button>
+                        <button class="btn btn-primary" id="addLinkSave">Add Link</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Remove existing modal if any
+        const existingModal = document.getElementById('addLinkModal');
+        if (existingModal) {
+            existingModal.remove();
         }
 
-        const linkUrl = prompt(`Enter URL for "${linkName}":`);
-        if (!linkUrl || !linkUrl.trim()) {
-            console.log('Link URL cancelled or empty');
-            return;
-        }
+        // Add modal to DOM
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-        // Validate URL
-        try {
-            new URL(linkUrl);
-        } catch {
-            alert('Please enter a valid URL (e.g., https://example.com)');
-            console.log('Invalid URL entered:', linkUrl);
-            return;
-        }
+        // Get modal elements
+        const modal = document.getElementById('addLinkModal');
+        const nameInput = document.getElementById('addLinkName');
+        const urlInput = document.getElementById('addLinkUrl');
+        const saveBtn = document.getElementById('addLinkSave');
+        const cancelBtn = document.getElementById('addLinkCancel');
+        const closeBtn = document.getElementById('addLinkModalClose');
 
-        // Add the link to the card
-        const newLink = {
-            name: linkName.trim(),
-            url: linkUrl.trim(),
-            icon: this.getIconForUrl(linkUrl.trim())
+        // Focus on name input
+        nameInput.focus();
+
+        // Handle form submission
+        const handleSave = () => {
+            const newName = nameInput.value.trim();
+            const newUrl = urlInput.value.trim();
+
+            if (!newName) {
+                alert('Please enter a link name');
+                nameInput.focus();
+                return;
+            }
+
+            if (!newUrl) {
+                alert('Please enter a URL');
+                urlInput.focus();
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(newUrl);
+            } catch {
+                alert('Please enter a valid URL (e.g., https://example.com)');
+                urlInput.focus();
+                return;
+            }
+
+            // Add the link to the card
+            const newLink = {
+                name: newName,
+                url: newUrl,
+                icon: this.getIconForUrl(newUrl)
+            };
+
+            const card = this.cards.find(c => c.id === cardId);
+            if (card) {
+                card.links.push(newLink);
+                this.saveCards();
+                this.renderCards();
+                console.log('Link added successfully:', newLink);
+            }
+
+            // Close modal
+            this.hideAddLinkModal();
         };
 
-        card.links.push(newLink);
-        this.saveCards();
-        this.renderCards();
-        
-        console.log('Link added successfully:', newLink);
+        // Handle cancel
+        const handleCancel = () => {
+            this.hideAddLinkModal();
+        };
+
+        // Event listeners
+        saveBtn.addEventListener('click', handleSave);
+        cancelBtn.addEventListener('click', handleCancel);
+        closeBtn.addEventListener('click', handleCancel);
+
+        // Handle Enter key in inputs
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                urlInput.focus();
+                urlInput.select();
+            }
+        });
+
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSave();
+            }
+        });
+
+        // Handle Escape key
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                handleCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+
+        // Store escape handler for cleanup
+        modal.dataset.escapeHandler = 'true';
+        modal._escapeHandler = handleEscape;
+
+        // Handle backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                handleCancel();
+            }
+        });
+
+        // Show the modal
+        modal.classList.add('show');
+    }
+
+    hideAddLinkModal() {
+        const modal = document.getElementById('addLinkModal');
+        if (modal) {
+            // Remove escape handler
+            if (modal._escapeHandler) {
+                document.removeEventListener('keydown', modal._escapeHandler);
+            }
+            // Hide modal first
+            modal.classList.remove('show');
+            // Remove from DOM after a short delay to allow animation
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.remove();
+                }
+            }, 150);
+        }
     }
 
     renderLinksContainer() {
