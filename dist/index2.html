@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Enhanced CSS Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="search-container">
+                <form class="search-form" id="googleSearchForm" action="https://www.google.com/search" method="get" target="_blank">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" name="q" id="googleSearchInput" placeholder="Search Google..." autocomplete="off">
+                        <button type="submit" class="search-btn" title="Search Google">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+                <button class="btn btn-primary" id="addCardBtn">
+                    <i class="fas fa-plus"></i> Add Card
+                </button>
+            </div>
+        </header>
+        
+        <main class="main">
+            <div class="cards-grid" id="cardsGrid" data-aos="fade-up" data-aos-delay="200">
+                <!-- Cards will be dynamically generated here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Card Modal -->
+    <div class="modal" id="addCardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Card</h3>
+                <button class="close-btn" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cardTitle">Card Title</label>
+                    <input type="text" id="cardTitle" placeholder="Enter card title">
+                </div>
+                
+                <div class="form-group">
+                    <div class="links-header">
+                        <label>Links</label>
+                        <div class="links-actions">
+                            <button type="button" class="btn btn-sm btn-secondary" id="bulkImportBtn">
+                                <i class="fas fa-upload"></i> Bulk Import
+                            </button>
+                            <button type="button" class="btn btn-sm btn-primary" id="addLinkBtn">
+                                <i class="fas fa-plus"></i> Add Link
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="links-container" id="linksContainer">
+                        <!-- Links will be added here dynamically -->
+                    </div>
+                    
+                    <div class="bulk-import-section" id="bulkImportSection" style="display: none;">
+                        <textarea id="bulkLinks" placeholder="Enter links, one per line (format: Name https://url.com)"></textarea>
+                        <div class="bulk-import-actions">
+                            <button type="button" class="btn btn-sm btn-secondary" id="cancelBulkImport">Cancel</button>
+                            <button type="button" class="btn btn-sm btn-primary" id="processBulkImport">Import Links</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveCardBtn">Save Card</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div class="confirmation-dialog" id="confirmationDialog">
+        <div class="confirmation-content">
+            <div class="confirmation-header">
+                <div class="confirmation-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="confirmation-title" id="confirmationTitle">Confirm Deletion</div>
+            </div>
+            <div class="confirmation-message" id="confirmationMessage">
+                Are you sure you want to delete this item?
+            </div>
+            <div class="confirmation-actions">
+                <button class="btn btn-secondary" id="confirmationCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmationDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+        
+        // Initialize Particles.js for background
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ['#667eea', '#764ba2', '#f093fb'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#667eea', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: { grab: { distance: 400, line_linked: { opacity: 1 } }, bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 }, repulse: { distance: 200, duration: 0.4 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>

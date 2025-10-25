@@ -1,0 +1,37 @@
+{
+  "name": "custom-homepage-dark-blue",
+  "version": "1.0.0",
+  "description": "A beautiful, modern homepage with Google search integration and organized link cards",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "start-python2": "python -m SimpleHTTPServer 8000",
+    "install": "node install.js"
+  },
+  "keywords": [
+    "homepage",
+    "browser",
+    "newtab",
+    "productivity",
+    "links",
+    "bookmarks",
+    "chrome",
+    "edge",
+    "firefox"
+  ],
+  "author": "Custom Homepage",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/custom-homepage"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/custom-homepage/issues"
+  },
+  "homepage": "https://github.com/yourusername/custom-homepage#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

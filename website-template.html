@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Homepage - Dark Blue Theme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #475569 100%);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #10b981;
+        }
+        
+        .download-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .screenshot {
+            max-width: 100%;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .stat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .stat h3 {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Custom Homepage</h1>
+            <p>A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link cards.</p>
+        </div>
+        
+        <div class="download-section">
+            <h2>🚀 Download Now</h2>
+            <p>Get your beautiful custom homepage in minutes!</p>
+            <a href="custom-homepage-dark-blue-v1.0-signed.zip" class="download-btn">📦 Download ZIP</a>
+            <a href="https://github.com/yourusername/custom-homepage" class="download-btn">🐙 View on GitHub</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🎨 Beautiful Design</h3>
+                <p>Dark blue gradient theme with glassmorphism effects, smooth animations, and responsive design that works on all devices.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔍 Google Search</h3>
+                <p>Built-in Google search bar that opens results in new tabs, keeping you on your homepage while searching.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📋 Smart Cards</h3>
+                <p>4x3 grid layout with alphabetical sorting, click-to-add links, and drag & drop organization.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>⚡ Quick Actions</h3>
+                <p>Click anywhere on a card to add links, use background tab opening, and organize with drag & drop.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔒 Secure & Private</h3>
+                <p>All data stored locally in your browser. No server required, no data sent anywhere.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📱 Mobile Ready</h3>
+                <p>Fully responsive design that works perfectly on desktop, tablet, and mobile devices.</p>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <h3>100%</h3>
+                <p>Client-Side</p>
+            </div>
+            <div class="stat">
+                <h3>0</h3>
+                <p>Server Required</p>
+            </div>
+            <div class="stat">
+                <h3>5+</h3>
+                <p>Browser Support</p>
+            </div>
+            <div class="stat">
+                <h3>MIT</h3>
+                <p>License</p>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <h2>🛠 Installation</h2>
+            <p>Setting up your custom homepage is easy:</p>
+            <ol style="text-align: left; max-width: 600px; margin: 20px auto;">
+                <li>Download the ZIP file</li>
+                <li>Extract to any folder on your computer</li>
+                <li>Double-click <code>index.html</code> to open</li>
+                <li>Set as homepage in your browser settings</li>
+            </ol>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Custom Homepage. Made with ❤️ for productivity enthusiasts.</p>
+            <p>Open source • Free to use • MIT License</p>
+        </div>
+    </div>
+</body>
+</html>
