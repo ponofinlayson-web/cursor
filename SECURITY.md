@@ -17,7 +17,7 @@ We actively support the following versions of Custom Homepage:
 If you discover a security vulnerability in Custom Homepage, please report it responsibly:
 
 #### **🔒 Critical Security Issues**
-- **Email**: [security@example.com](mailto:security@example.com)
+- **Email**: [ponofinlayson@hotmail.com](mailto:ponofinlayson@hotmail.com)
 - **Response Time**: Within 24 hours
 - **Scope**: Remote code execution, data exfiltration, privilege escalation
 
