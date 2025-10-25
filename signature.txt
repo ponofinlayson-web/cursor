@@ -2,4 +2,4 @@
 Version: 1.0.0
 Signed: 2025-10-24 22:23:01
 Certificate: C372BF64625646A7968FF8BC9B0994FAF20BD785
-Publisher: Custom Homepage
+Publisher: Pono Finlayson
