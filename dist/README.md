@@ -20,7 +20,7 @@ A beautiful, modern homepage for Chromium-based browsers featuring a dark blue g
 - **Quick Link Addition**: Click anywhere on a card to add links
 - **Dual Click Options**: 
   - Click main link area to navigate normally
-  - Click external link icon (🔗) to open in background tab
+  - Ctrl + click tooltip "Ctrl + click to open - stay"
 - **Drag & Drop**: Reorder links within cards
 - **Bulk Import**: Add multiple links at once
 - **Real-time Validation**: URL validation and favicon detection
