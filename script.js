@@ -292,23 +292,23 @@ class HomepageManager {
             });
         });
 
-        // New tab button
-        document.querySelectorAll('.link-new-tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        // New tab button (using event delegation)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.link-new-tab-btn')) {
                 e.stopPropagation();
                 const url = e.target.closest('.link-new-tab-btn').dataset.url;
                 this.openInNewTab(url);
-            });
+            }
         });
 
-        // Delete link button
-        document.querySelectorAll('.link-delete-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        // Delete link button (using event delegation)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.link-delete-btn')) {
                 e.stopPropagation();
                 const cardId = e.target.closest('.link-delete-btn').dataset.cardId;
                 const linkIndex = parseInt(e.target.closest('.link-delete-btn').dataset.linkIndex);
                 this.showDeleteLinkConfirmation(cardId, linkIndex);
-            });
+            }
         });
 
         // Card click to add link

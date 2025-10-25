@@ -517,27 +517,6 @@ body::before {
     min-height: 120px;
 }
 
-.card-links:empty::after {
-    content: 'Click here to add links';
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 12px;
-    font-style: italic;
-    text-align: center;
-    padding: 20px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    margin: 10px 0;
-    transition: all 0.3s ease;
-}
-
-.card-links:empty:hover::after {
-    color: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.05);
-}
 
 .link-item {
     display: flex;
