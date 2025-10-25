@@ -133,31 +133,158 @@ class HomepageManager {
 
         const link = card.links[linkIndex];
         
-        // Prompt for new name
-        const newName = prompt(`Edit link name:`, link.name);
-        if (!newName || newName.trim() === '') return;
+        // Create edit form modal
+        this.showEditLinkModal(cardId, linkIndex, link);
+    }
 
-        // Prompt for new URL
-        const newUrl = prompt(`Edit URL:`, link.url);
-        if (!newUrl || newUrl.trim() === '') return;
+    showEditLinkModal(cardId, linkIndex, link) {
+        // Create modal HTML
+        const modalHTML = `
+            <div class="modal" id="editLinkModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Edit Link</h3>
+                        <button class="modal-close" id="editLinkModalClose">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editLinkName">Link Name:</label>
+                            <input type="text" id="editLinkName" value="${link.name}" placeholder="Enter link name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editLinkUrl">URL:</label>
+                            <input type="url" id="editLinkUrl" value="${link.url}" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="editLinkCancel">Cancel</button>
+                        <button class="btn btn-primary" id="editLinkSave">Save</button>
+                    </div>
+                </div>
+            </div>
+        `;
 
-        // Validate URL
-        try {
-            new URL(newUrl);
-        } catch {
-            alert('Please enter a valid URL (e.g., https://example.com)');
-            return;
+        // Remove existing modal if any
+        const existingModal = document.getElementById('editLinkModal');
+        if (existingModal) {
+            existingModal.remove();
         }
 
-        // Update the link
-        card.links[linkIndex] = {
-            name: newName.trim(),
-            url: newUrl.trim(),
-            icon: this.getIconForUrl(newUrl.trim())
+        // Add modal to DOM
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        // Get modal elements
+        const modal = document.getElementById('editLinkModal');
+        const nameInput = document.getElementById('editLinkName');
+        const urlInput = document.getElementById('editLinkUrl');
+        const saveBtn = document.getElementById('editLinkSave');
+        const cancelBtn = document.getElementById('editLinkCancel');
+        const closeBtn = document.getElementById('editLinkModalClose');
+
+        // Focus on name input
+        nameInput.focus();
+        nameInput.select();
+
+        // Handle form submission
+        const handleSave = () => {
+            const newName = nameInput.value.trim();
+            const newUrl = urlInput.value.trim();
+
+            if (!newName) {
+                alert('Please enter a link name');
+                nameInput.focus();
+                return;
+            }
+
+            if (!newUrl) {
+                alert('Please enter a URL');
+                urlInput.focus();
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(newUrl);
+            } catch {
+                alert('Please enter a valid URL (e.g., https://example.com)');
+                urlInput.focus();
+                return;
+            }
+
+            // Update the link
+            const card = this.cards.find(c => c.id === cardId);
+            if (card && card.links[linkIndex]) {
+                card.links[linkIndex] = {
+                    name: newName,
+                    url: newUrl,
+                    icon: this.getIconForUrl(newUrl)
+                };
+
+                this.saveCards();
+                this.renderCards();
+            }
+
+            // Close modal
+            this.hideEditLinkModal();
         };
 
-        this.saveCards();
-        this.renderCards();
+        // Handle cancel
+        const handleCancel = () => {
+            this.hideEditLinkModal();
+        };
+
+        // Event listeners
+        saveBtn.addEventListener('click', handleSave);
+        cancelBtn.addEventListener('click', handleCancel);
+        closeBtn.addEventListener('click', handleCancel);
+
+        // Handle Enter key in inputs
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                urlInput.focus();
+                urlInput.select();
+            }
+        });
+
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSave();
+            }
+        });
+
+        // Handle Escape key
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                handleCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+
+        // Store escape handler for cleanup
+        modal.dataset.escapeHandler = 'true';
+        modal._escapeHandler = handleEscape;
+
+        // Handle backdrop click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                handleCancel();
+            }
+        });
+    }
+
+    hideEditLinkModal() {
+        const modal = document.getElementById('editLinkModal');
+        if (modal) {
+            // Remove escape handler
+            if (modal._escapeHandler) {
+                document.removeEventListener('keydown', modal._escapeHandler);
+            }
+            modal.remove();
+        }
     }
 
     sortCards() {
@@ -250,11 +377,20 @@ class HomepageManager {
         });
 
         // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
+        const handleEscape = (e) => {
             if (e.key === 'Escape') {
+                e.preventDefault();
                 this.hideAddCardModal();
             }
-        });
+        };
+        
+        document.addEventListener('keydown', handleEscape);
+        
+        // Store escape handler for cleanup
+        const modal = document.getElementById('addCardModal');
+        if (modal) {
+            modal._escapeHandler = handleEscape;
+        }
 
         // Search functionality is handled in initializeSearch()
 
@@ -301,6 +437,11 @@ class HomepageManager {
 
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+                if (e.key === 'Escape') {
+                    e.preventDefault();
                     e.target.blur();
                 }
             });
@@ -363,7 +504,15 @@ class HomepageManager {
     }
 
     hideAddCardModal() {
-        document.getElementById('addCardModal').classList.remove('show');
+        const modal = document.getElementById('addCardModal');
+        if (modal) {
+            // Remove escape handler
+            if (modal._escapeHandler) {
+                document.removeEventListener('keydown', modal._escapeHandler);
+            }
+            modal.classList.remove('show');
+        }
+        
         document.getElementById('cardTitle').value = '';
         document.getElementById('linksContainer').innerHTML = '';
         document.getElementById('bulkImportSection').style.display = 'none';
@@ -445,6 +594,21 @@ class HomepageManager {
                 const index = parseInt(e.target.closest('.link-entry').dataset.index);
                 this.currentLinks[index].name = e.target.value;
             });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const urlInput = e.target.closest('.link-entry').querySelector('.link-url-input');
+                    if (urlInput) {
+                        urlInput.focus();
+                        urlInput.select();
+                    }
+                }
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+            });
         });
 
         document.querySelectorAll('.link-url-input').forEach(input => {
@@ -460,6 +624,17 @@ class HomepageManager {
                 
                 // Validate URL
                 this.validateLinkEntry(e.target.closest('.link-entry'), url);
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.target.blur();
+                }
             });
         });
 
