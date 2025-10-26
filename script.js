@@ -772,11 +772,14 @@ class HomepageManager {
             }
 
             // Add the link to the card
+            const iconClass = this.getIconForUrl(newUrl);
             const newLink = {
                 name: newName,
                 url: newUrl,
-                icon: this.getIconForUrl(newUrl)
+                icon: iconClass
             };
+
+            console.log('Adding link with icon:', newLink);
 
             const card = this.cards.find(c => c.id === cardId);
             if (card) {
