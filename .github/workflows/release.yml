@@ -128,13 +128,13 @@ jobs:
           
           **Windows (PowerShell):**
           ```powershell
-          Get-FileHash grouped-links-v${{ github.ref_name }}.zip -Algorithm SHA256
+          Get-FileHash grouped-links-${{ github.ref_name }}.zip -Algorithm SHA256
           # Compare with the value in the .sha256 file
           ```
           
           **Mac/Linux:**
           ```bash
-          shasum -a 256 grouped-links-v${{ github.ref_name }}.zip
+          shasum -a 256 grouped-links-${{ github.ref_name }}.zip
           # Compare with the value in the .sha256 file
           ```
           
@@ -164,7 +164,7 @@ jobs:
            
            **Step 3:** Verify the signature:
            ```bash
-           gpg --verify grouped-links-v${{ github.ref_name }}.zip.asc
+           gpg --verify grouped-links-${{ github.ref_name }}.zip.asc
            ```
            
            You should see: **"Good signature from Pono Finlayson"** ✅
