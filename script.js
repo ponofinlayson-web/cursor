@@ -380,6 +380,12 @@ class HomepageManager {
     }
 
     renderCards() {
+        // Don't re-render if a modal is open
+        if (this.modalsOpen.size > 0) {
+            console.warn('Skipping renderCards() - modals are open');
+            return;
+        }
+        
         const grid = document.getElementById('cardsGrid');
         this.sortCards();
         
@@ -1299,7 +1305,12 @@ class HomepageManager {
     deleteCard(cardId) {
         this.cards = this.cards.filter(c => c.id !== cardId);
         this.saveCards();
+        
+        // Force re-render even if modals are open by temporarily clearing the modalsOpen set
+        const modalsOpenSnapshot = new Set(this.modalsOpen);
+        this.modalsOpen.clear();
         this.renderCards();
+        this.modalsOpen = modalsOpenSnapshot;
     }
 
     deleteLink(cardId, linkIndex) {
@@ -1307,7 +1318,12 @@ class HomepageManager {
         if (card && card.links[linkIndex]) {
             card.links.splice(linkIndex, 1);
             this.saveCards();
+            
+            // Force re-render even if modals are open by temporarily clearing the modalsOpen set
+            const modalsOpenSnapshot = new Set(this.modalsOpen);
+            this.modalsOpen.clear();
             this.renderCards();
+            this.modalsOpen = modalsOpenSnapshot;
         }
     }
 
