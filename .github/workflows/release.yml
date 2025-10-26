@@ -50,22 +50,22 @@ jobs:
         zip -r ../grouped-links-v${{ github.ref_name }}.zip .
         cd ..
     
-    - name: Sign package with GPG (Optional)
+    - name: Create checksums
       run: |
         # Create checksums (always done)
         sha256sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha256
         sha512sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha512
-        
-        # GPG signing (optional - only if secret is configured)
+    
+    - name: Sign package with GPG (Optional)
+      continue-on-error: true
+      run: |
+        # Only sign if GPG_PRIVATE_KEY secret exists
         if [ -n "${{ secrets.GPG_PRIVATE_KEY }}" ]; then
           # Import GPG key
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import || echo "GPG import failed"
           
           # Sign the package
-          gpg --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip
-          
-          # Attach signature to release
-          echo "grouped-links-v${{ github.ref_name }}.zip.asc" >> .release-files.txt
+          gpg --batch --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip || echo "GPG signing failed"
         fi
     
     - name: Create Release
@@ -75,7 +75,6 @@ jobs:
           grouped-links-v${{ github.ref_name }}.zip
           grouped-links-v${{ github.ref_name }}.zip.sha256
           grouped-links-v${{ github.ref_name }}.zip.sha512
-          grouped-links-v${{ github.ref_name }}.zip.asc
         body: |
           # Grouped Links v${{ github.ref_name }}
           
