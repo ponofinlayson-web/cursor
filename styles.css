@@ -68,9 +68,11 @@ body::before {
 .search-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
 }
 
 .search-form {
@@ -262,6 +264,22 @@ body::before {
 .btn-secondary:hover {
     background: #e9ecef;
     transform: translateY(-1px);
+}
+
+.btn-icon-only {
+    padding: 8px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0.8;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+}
+
+.btn-icon-only:hover {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.05);
 }
 
 /* Cards Grid - Enhanced with Dynamic Effects */
