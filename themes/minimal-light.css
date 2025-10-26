@@ -20,13 +20,25 @@ body {
 }
 
 .card-title {
-    color: #212529 !important;
+    color: #000000 !important;
 }
 
 .link-item {
     background: linear-gradient(315deg, rgba(248, 249, 250, 0.8) 0%, rgba(233, 236, 239, 0.6) 100%) !important;
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    color: #212529 !important;
+    color: #000000 !important;
+}
+
+.link-main i {
+    color: #000000 !important;
+}
+
+.link-main span {
+    color: #000000 !important;
+}
+
+.link-edit-btn {
+    color: #000000 !important;
 }
 
 .link-item:hover {

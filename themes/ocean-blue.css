@@ -24,6 +24,18 @@ body {
     color: #ffffff !important;
 }
 
+.link-main i {
+    color: #ffffff !important;
+}
+
+.link-main span {
+    color: #ffffff !important;
+}
+
+.link-edit-btn {
+    color: #ffffff !important;
+}
+
 .link-item:hover {
     background: linear-gradient(315deg, #667eea 0%, #764ba2 100%) !important;
 }
