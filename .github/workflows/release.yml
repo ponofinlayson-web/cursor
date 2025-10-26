@@ -50,26 +50,32 @@ jobs:
         zip -r ../grouped-links-v${{ github.ref_name }}.zip .
         cd ..
     
-    - name: Sign package with GPG
+    - name: Sign package with GPG (Optional)
       run: |
-        # Import GPG key (you'll need to add your GPG private key to secrets)
-        echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
-        
-        # Sign the package
-        gpg --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip
-        
-        # Create checksums
+        # Create checksums (always done)
         sha256sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha256
         sha512sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha512
+        
+        # GPG signing (optional - only if secret is configured)
+        if [ -n "${{ secrets.GPG_PRIVATE_KEY }}" ]; then
+          # Import GPG key
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
+          
+          # Sign the package
+          gpg --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip
+          
+          # Attach signature to release
+          echo "grouped-links-v${{ github.ref_name }}.zip.asc" >> .release-files.txt
+        fi
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
           grouped-links-v${{ github.ref_name }}.zip
-          grouped-links-v${{ github.ref_name }}.zip.asc
           grouped-links-v${{ github.ref_name }}.zip.sha256
           grouped-links-v${{ github.ref_name }}.zip.sha512
+          grouped-links-v${{ github.ref_name }}.zip.asc
         body: |
           # Grouped Links v${{ github.ref_name }}
           
@@ -100,7 +106,23 @@ jobs:
           
           ## 🔐 Verification
           
-          This release is signed with GPG for authenticity. To verify:
+          ### Verify Checksum (Recommended)
+          
+          **Windows (PowerShell):**
+          ```powershell
+          Get-FileHash grouped-links-v${{ github.ref_name }}.zip -Algorithm SHA256
+          # Compare with the value in the .sha256 file
+          ```
+          
+          **Mac/Linux:**
+          ```bash
+          shasum -a 256 grouped-links-v${{ github.ref_name }}.zip
+          # Compare with the value in the .sha256 file
+          ```
+          
+          ### Verify GPG Signature (Optional)
+          
+          If you want to verify the GPG signature:
           
           ```bash
           # Import the public key
@@ -108,9 +130,6 @@ jobs:
           
           # Verify the signature
           gpg --verify grouped-links-v${{ github.ref_name }}.zip.asc
-          
-          # Verify checksums
-          sha256sum -c grouped-links-v${{ github.ref_name }}.zip.sha256
           ```
           
           ## 🚀 Installation
