@@ -135,9 +135,25 @@ class HomepageManager {
 
     editLink(cardId, linkIndex) {
         const card = this.cards.find(c => c.id === cardId);
-        if (!card || !card.links[linkIndex]) return;
+        
+        console.log('editLink called:', { cardId, linkIndex, cardExists: !!card });
+        
+        if (!card) {
+            console.error('Card not found:', cardId);
+            alert('Error: Card not found. Please try again.');
+            return;
+        }
+        
+        if (!card.links[linkIndex]) {
+            console.error('Link not found:', { linkIndex, totalLinks: card.links.length });
+            alert('Error: Link not found. The link may have been removed.');
+            this.renderCards(); // Re-render to fix any inconsistencies
+            return;
+        }
 
         const link = card.links[linkIndex];
+        
+        console.log('Opening edit modal for link:', link);
         
         // Create edit form modal
         this.showEditLinkModal(cardId, linkIndex, link);
@@ -262,11 +278,15 @@ class HomepageManager {
                 }
 
                 this.saveCards();
-                this.renderCards();
             }
 
-            // Close modal
+            // Close modal first
             this.hideEditLinkModal();
+            
+            // Then re-render after modal is closed
+            setTimeout(() => {
+                this.renderCards();
+            }, 300);
         };
 
         // Handle cancel
@@ -277,14 +297,18 @@ class HomepageManager {
         // Handle delete
         const handleDelete = () => {
             if (confirm('Are you sure you want to delete this link?')) {
-                const card = this.cards.find(c => c.id === cardId);
-                if (card && card.links[linkIndex]) {
-                    card.links.splice(linkIndex, 1);
-                    this.saveCards();
-                    this.renderCards();
-                    console.log('Link deleted successfully');
-                }
                 this.hideEditLinkModal();
+                
+                // Wait for modal to close before re-rendering
+                setTimeout(() => {
+                    const card = this.cards.find(c => c.id === cardId);
+                    if (card && card.links[linkIndex]) {
+                        card.links.splice(linkIndex, 1);
+                        this.saveCards();
+                        this.renderCards();
+                        console.log('Link deleted successfully');
+                    }
+                }, 300);
             }
         };
 
@@ -531,6 +555,10 @@ class HomepageManager {
                 const btn = e.target.closest('.link-edit-btn');
                 const cardId = btn.dataset.cardId;
                 const linkIndex = parseInt(btn.dataset.linkIndex);
+                
+                console.log('Edit button clicked:', { cardId, linkIndex });
+                console.log('Card data:', this.cards.find(c => c.id === cardId));
+                
                 this.editLink(cardId, linkIndex);
             }
         });
