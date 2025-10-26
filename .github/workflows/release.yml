@@ -142,22 +142,25 @@ jobs:
            
            If you want to verify the GPG signature:
            
-           **Step 1:** Download the public key from the repository:
-           ```bash
-           # Option A: From GitHub (recommended)
-           curl -o public-key.asc https://raw.githubusercontent.com/ponofinlayson-web/cursor/main/public-key-github.asc
-           
-           # Option B: Or clone and use the file from the repo
-           git clone https://github.com/ponofinlayson-web/cursor.git
-           cd cursor
-           ```
-           
-           **Step 2:** Import the public key:
-           ```bash
-           gpg --import public-key.asc
-           # Or if you cloned the repo:
-           gpg --import public-key-github.asc
-           ```
+                       **Step 1:** Download the public key from the repository:
+            ```bash
+            # Option A: From GitHub using the web interface
+            # Visit: https://github.com/ponofinlayson-web/cursor/blob/main/public-key-github.asc
+            # Click "Raw" button, then save as public-key-github.asc
+            
+            # Option B: Clone the repo
+            git clone https://github.com/ponofinlayson-web/cursor.git
+            cd cursor
+            ```
+            
+            **Step 2:** Import the public key:
+            ```bash
+            # If you downloaded from web:
+            gpg --import public-key-github.asc
+            
+            # Or if you cloned the repo:
+            gpg --import public-key-github.asc
+            ```
            
            **Step 3:** Verify the signature:
            ```bash
