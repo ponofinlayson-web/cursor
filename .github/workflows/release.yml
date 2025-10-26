@@ -138,17 +138,33 @@ jobs:
           # Compare with the value in the .sha256 file
           ```
           
-          ### Verify GPG Signature (Optional)
-          
-          If you want to verify the GPG signature:
-          
-          ```bash
-          # Import the public key
-          gpg --keyserver keyserver.ubuntu.com --recv-keys [KEY_ID]
-          
-          # Verify the signature
-          gpg --verify grouped-links-v${{ github.ref_name }}.zip.asc
-          ```
+                     ### Verify GPG Signature (Optional)
+           
+           If you want to verify the GPG signature:
+           
+           **Step 1:** Download the public key from the repository:
+           ```bash
+           # Option A: From GitHub (recommended)
+           curl -o public-key.asc https://raw.githubusercontent.com/ponofinlayson-web/cursor/main/public-key-github.asc
+           
+           # Option B: Or clone and use the file from the repo
+           git clone https://github.com/ponofinlayson-web/cursor.git
+           cd cursor
+           ```
+           
+           **Step 2:** Import the public key:
+           ```bash
+           gpg --import public-key.asc
+           # Or if you cloned the repo:
+           gpg --import public-key-github.asc
+           ```
+           
+           **Step 3:** Verify the signature:
+           ```bash
+           gpg --verify grouped-links-v${{ github.ref_name }}.zip.asc
+           ```
+           
+           You should see: **"Good signature from Pono Finlayson"** ✅
           
           ## 🚀 Installation
           
