@@ -50,14 +50,14 @@ jobs:
         
         # Create ZIP package
         cd dist
-        zip -r ../grouped-links-v${{ github.ref_name }}.zip .
+        zip -r ../grouped-links-${{ github.ref_name }}.zip .
         cd ..
     
     - name: Create checksums
       run: |
         # Create checksums (always done)
-        sha256sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha256
-        sha512sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha512
+        sha256sum grouped-links-${{ github.ref_name }}.zip > grouped-links-${{ github.ref_name }}.zip.sha256
+        sha512sum grouped-links-${{ github.ref_name }}.zip > grouped-links-${{ github.ref_name }}.zip.sha512
     
     - name: Sign package with GPG (Optional)
       continue-on-error: true
@@ -68,19 +68,19 @@ jobs:
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import || echo "GPG import failed"
           
           # Sign the package
-          gpg --batch --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip || echo "GPG signing failed"
+          gpg --batch --armor --detach-sign grouped-links-${{ github.ref_name }}.zip || echo "GPG signing failed"
         fi
     
     - name: Prepare release files
       run: |
         # Create a file list for release
-        echo "grouped-links-v${{ github.ref_name }}.zip" > release-files.txt
-        echo "grouped-links-v${{ github.ref_name }}.zip.sha256" >> release-files.txt
-        echo "grouped-links-v${{ github.ref_name }}.zip.sha512" >> release-files.txt
+        echo "grouped-links-${{ github.ref_name }}.zip" > release-files.txt
+        echo "grouped-links-${{ github.ref_name }}.zip.sha256" >> release-files.txt
+        echo "grouped-links-${{ github.ref_name }}.zip.sha512" >> release-files.txt
         
         # Add .asc file if it exists
-        if [ -f "grouped-links-v${{ github.ref_name }}.zip.asc" ]; then
-          echo "grouped-links-v${{ github.ref_name }}.zip.asc" >> release-files.txt
+        if [ -f "grouped-links-${{ github.ref_name }}.zip.asc" ]; then
+          echo "grouped-links-${{ github.ref_name }}.zip.asc" >> release-files.txt
         fi
         
         # List files to be uploaded
@@ -90,10 +90,10 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          grouped-links-v${{ github.ref_name }}.zip
-          grouped-links-v${{ github.ref_name }}.zip.sha256
-          grouped-links-v${{ github.ref_name }}.zip.sha512
-          grouped-links-v${{ github.ref_name }}.zip.asc
+          grouped-links-${{ github.ref_name }}.zip
+          grouped-links-${{ github.ref_name }}.zip.sha256
+          grouped-links-${{ github.ref_name }}.zip.sha512
+          grouped-links-${{ github.ref_name }}.zip.asc
         body: |
           # Grouped Links v${{ github.ref_name }}
           
