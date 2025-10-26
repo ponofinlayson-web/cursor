@@ -24,7 +24,7 @@ jobs:
     - name: Configure Git
       run: |
         git config --global user.name "Pono Finlayson"
-        git config --global user.email "pono@example.com"
+        git config --global user.email "ponofinlayson@hotmail.com"
     
     - name: Create distribution package
       run: |
