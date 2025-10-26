@@ -71,6 +71,21 @@ jobs:
           gpg --batch --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip || echo "GPG signing failed"
         fi
     
+    - name: Prepare release files
+      run: |
+        # Create a file list for release
+        echo "grouped-links-v${{ github.ref_name }}.zip" > release-files.txt
+        echo "grouped-links-v${{ github.ref_name }}.zip.sha256" >> release-files.txt
+        echo "grouped-links-v${{ github.ref_name }}.zip.sha512" >> release-files.txt
+        
+        # Add .asc file if it exists
+        if [ -f "grouped-links-v${{ github.ref_name }}.zip.asc" ]; then
+          echo "grouped-links-v${{ github.ref_name }}.zip.asc" >> release-files.txt
+        fi
+        
+        # List files to be uploaded
+        cat release-files.txt
+    
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
@@ -78,6 +93,7 @@ jobs:
           grouped-links-v${{ github.ref_name }}.zip
           grouped-links-v${{ github.ref_name }}.zip.sha256
           grouped-links-v${{ github.ref_name }}.zip.sha512
+          grouped-links-v${{ github.ref_name }}.zip.asc
         body: |
           # Grouped Links v${{ github.ref_name }}
           
