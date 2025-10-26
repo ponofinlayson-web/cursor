@@ -704,7 +704,8 @@ body::before {
     gap: 8px;
 }
 
-.link-main i {
+.link-main i,
+.link-main .link-favicon-icon {
     font-size: 14px;
     flex-shrink: 0;
     width: 14px;
@@ -712,7 +713,7 @@ body::before {
     opacity: 0.9;
 }
 
-.link-main img.link-favicon {
+.link-main img.link-favicon-img {
     width: 16px;
     height: 16px;
     flex-shrink: 0;

@@ -362,13 +362,13 @@ class HomepageManager {
 
         grid.innerHTML = this.cards.map(card => this.createCardHTML(card)).join('');
         this.bindCardEvents();
+        // Load favicons after cards are rendered
+        this.loadFavicons();
     }
 
     createCardHTML(card) {
         const linksHTML = card.links.map((link, index) => {
-            // Get favicon URL
-            const faviconUrl = this.getFaviconUrl(link.url);
-            
+            // Show Font Awesome icon by default, hide it if favicon loads successfully
             return `
                 <div class="link-item hvr-float" 
                      data-card-id="${card.id}" 
@@ -376,9 +376,8 @@ class HomepageManager {
                      data-aos="fade-up" 
                      data-aos-delay="${index * 100}" 
                      title="Ctrl + click to open - stay">
-                    <a href="${link.url}" target="_blank" class="link-main">
-                        <img src="${faviconUrl}" alt="" class="link-favicon" onerror="this.onerror=null; this.style.display='none'; this.parentElement.querySelector('.link-fallback-icon').style.display='inline-block';">
-                        <i class="${link.icon} link-fallback-icon" style="display:none;"></i>
+                    <a href="${link.url}" target="_blank" class="link-main" data-link-url="${link.url}">
+                        <i class="${link.icon} link-favicon-icon"></i>
                         <span>${link.name}</span>
                     </a>
                     <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
@@ -1262,6 +1261,35 @@ class HomepageManager {
         }
     }
 
+    loadFavicons() {
+        // Load favicons for all links after rendering
+        const linkElements = document.querySelectorAll('.link-main[data-link-url]');
+        
+        linkElements.forEach(linkEl => {
+            const url = linkEl.getAttribute('data-link-url');
+            const faviconUrl = this.getFaviconUrl(url);
+            const iconEl = linkEl.querySelector('.link-favicon-icon');
+            
+            if (iconEl && faviconUrl) {
+                // Create an image to test if favicon loads
+                const img = new Image();
+                img.onload = () => {
+                    // Favicon loaded successfully, replace icon with img
+                    const imgEl = document.createElement('img');
+                    imgEl.src = faviconUrl;
+                    imgEl.className = 'link-favicon-img';
+                    imgEl.alt = '';
+                    iconEl.parentNode.replaceChild(imgEl, iconEl);
+                };
+                img.onerror = () => {
+                    // Favicon failed to load, keep the Font Awesome icon
+                    // Do nothing, icon stays visible
+                };
+                img.src = faviconUrl;
+            }
+        });
+    }
+
     getFaviconUrl(url) {
         try {
             const urlObj = new URL(url);
@@ -1280,7 +1308,7 @@ class HomepageManager {
             return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
         } catch {
             // Fallback if URL parsing fails
-            return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23ccc"/></svg>';
+            return null;
         }
     }
 
