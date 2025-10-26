@@ -262,11 +262,7 @@ class HomepageManager {
                 }
 
                 this.saveCards();
-                
-                // Prevent re-render loop by deferring render
-                setTimeout(() => {
-                    this.renderCards();
-                }, 100);
+                this.renderCards();
             }
 
             // Close modal
@@ -532,17 +528,7 @@ class HomepageManager {
                 e.stopPropagation();
                 e.preventDefault();
                 
-                // Prevent multiple rapid clicks
                 const btn = e.target.closest('.link-edit-btn');
-                if (btn.disabled) {
-                    return;
-                }
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    btn.disabled = false;
-                }, 500);
-                
                 const cardId = btn.dataset.cardId;
                 const linkIndex = parseInt(btn.dataset.linkIndex);
                 this.editLink(cardId, linkIndex);
@@ -555,17 +541,7 @@ class HomepageManager {
                 e.stopPropagation();
                 e.preventDefault();
                 
-                // Prevent multiple rapid clicks
                 const btn = e.target.closest('.add-link-btn');
-                if (btn.disabled) {
-                    return;
-                }
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    btn.disabled = false;
-                }, 500);
-                
                 const cardId = btn.dataset.cardId;
                 console.log('Add link button clicked for card:', cardId);
                 this.showAddLinkDialog(cardId);
@@ -843,11 +819,7 @@ class HomepageManager {
             if (card) {
                 card.links.push(newLink);
                 this.saveCards();
-                
-                // Prevent re-render loop by deferring render
-                setTimeout(() => {
-                    this.renderCards();
-                }, 100);
+                this.renderCards();
                 
                 console.log('Link added successfully:', newLink);
             }
