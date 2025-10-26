@@ -1294,9 +1294,9 @@ class HomepageManager {
             {
                 id: 'default',
                 name: 'Default',
-                description: 'Original dark blue gradient theme',
+                description: 'Original dark blue gradient theme with blue-green cards',
                 preview: 'linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #475569 100%)',
-                css: ''
+                css: 'themes/default.css'
             },
             {
                 id: 'minimal',

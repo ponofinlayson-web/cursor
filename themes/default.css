@@ -1,0 +1,34 @@
+/* Default Theme - Original Blue/Green Gradient Theme */
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 60%, #475569 100%) !important;
+}
+
+.header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.card {
+    background: linear-gradient(315deg, rgba(59, 130, 246, 0.25) 0%, rgba(16, 185, 129, 0.2) 50%, rgba(34, 197, 94, 0.15) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.card:hover {
+    background: linear-gradient(315deg, rgba(59, 130, 246, 0.35) 0%, rgba(16, 185, 129, 0.3) 50%, rgba(34, 197, 94, 0.25) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+}
+
+.card-title {
+    color: #ffffff !important;
+}
+
+.link-item {
+    background: linear-gradient(315deg, rgba(59, 130, 246, 0.2) 0%, rgba(16, 185, 129, 0.15) 50%, rgba(34, 197, 94, 0.1) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.link-item:hover {
+    background: linear-gradient(315deg, rgba(59, 130, 246, 0.35) 0%, rgba(16, 185, 129, 0.3) 50%, rgba(34, 197, 94, 0.25) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+}
