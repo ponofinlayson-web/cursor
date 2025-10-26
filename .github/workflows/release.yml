@@ -95,7 +95,7 @@ jobs:
           grouped-links-${{ github.ref_name }}.zip.sha512
           grouped-links-${{ github.ref_name }}.zip.asc
         body: |
-          # Grouped Links v${{ github.ref_name }}
+          # Grouped Links ${{ github.ref_name }}
           
           A beautiful, modern homepage for Chromium-based browsers featuring theme customization, Google search integration, and organized link groups.
           
@@ -122,53 +122,6 @@ jobs:
           - **Minimal Light** - Clean light theme
           - **Modern Dark** - Modern dark theme
           
-          ## 🔐 Verification
-          
-          ### Verify Checksum (Recommended)
-          
-          **Windows (PowerShell):**
-          ```powershell
-          Get-FileHash grouped-links-${{ github.ref_name }}.zip -Algorithm SHA256
-          # Compare with the value in the .sha256 file
-          ```
-          
-          **Mac/Linux:**
-          ```bash
-          shasum -a 256 grouped-links-${{ github.ref_name }}.zip
-          # Compare with the value in the .sha256 file
-          ```
-          
-                     ### Verify GPG Signature (Optional)
-           
-           If you want to verify the GPG signature:
-           
-                       **Step 1:** Download the public key from the repository:
-            ```bash
-            # Option A: From GitHub using the web interface
-            # Visit: https://github.com/ponofinlayson-web/cursor/blob/main/public-key-github.asc
-            # Click "Raw" button, then save as public-key-github.asc
-            
-            # Option B: Clone the repo
-            git clone https://github.com/ponofinlayson-web/cursor.git
-            cd cursor
-            ```
-            
-            **Step 2:** Import the public key:
-            ```bash
-            # If you downloaded from web:
-            gpg --import public-key-github.asc
-            
-            # Or if you cloned the repo:
-            gpg --import public-key-github.asc
-            ```
-           
-           **Step 3:** Verify the signature:
-           ```bash
-           gpg --verify grouped-links-${{ github.ref_name }}.zip.asc
-           ```
-           
-           You should see: **"Good signature from Pono Finlayson"** ✅
-          
           ## 🚀 Installation
           
           1. Download the ZIP file
@@ -187,6 +140,55 @@ jobs:
           **Author**: Pono Finlayson  
           **License**: MIT  
           **Version**: ${{ github.ref_name }}
+          
+          ---
+          
+          ## 🔐 Verification
+          
+          ### Verify Checksum (Recommended)
+          
+          **Windows (PowerShell):**
+          ```powershell
+          Get-FileHash grouped-links-${{ github.ref_name }}.zip -Algorithm SHA256
+          # Compare with the value in the .sha256 file
+          ```
+          
+          **Mac/Linux:**
+          ```bash
+          shasum -a 256 grouped-links-${{ github.ref_name }}.zip
+          # Compare with the value in the .sha256 file
+          ```
+          
+          ### Verify GPG Signature (Optional)
+          
+          If you want to verify the GPG signature:
+          
+          **Step 1:** Download the public key from the repository:
+          ```bash
+          # Option A: From GitHub using the web interface
+          # Visit: https://github.com/ponofinlayson-web/cursor/blob/main/public-key-github.asc
+          # Click "Raw" button, then save as public-key-github.asc
+          
+          # Option B: Clone the repo
+          git clone https://github.com/ponofinlayson-web/cursor.git
+          cd cursor
+          ```
+          
+          **Step 2:** Import the public key:
+          ```bash
+          # If you downloaded from web:
+          gpg --import public-key-github.asc
+          
+          # Or if you cloned the repo:
+          gpg --import public-key-github.asc
+          ```
+          
+          **Step 3:** Verify the signature:
+          ```bash
+          gpg --verify grouped-links-${{ github.ref_name }}.zip.asc
+          ```
+          
+          You should see: **"Good signature from Pono Finlayson"** ✅
         draft: false
         prerelease: false
       env:
