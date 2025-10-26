@@ -472,7 +472,7 @@ body::before {
 .card-actions {
     display: flex;
     gap: 4px;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.2s ease;
 }
 
@@ -629,13 +629,14 @@ body::before {
 .link-item:hover {
     background: linear-gradient(315deg, #3b82f6 0%, #10b981 50%, #22c55e 100%);
     color: white;
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-4px);
     box-shadow: 
         0 12px 30px rgba(59, 130, 246, 0.4),
         0 6px 16px rgba(16, 185, 129, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
     border-color: rgba(59, 130, 246, 0.5);
     animation-play-state: paused;
+    z-index: 10;
 }
 
 .link-item:hover::before {
@@ -643,7 +644,7 @@ body::before {
 }
 
 .link-item:active {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-2px);
 }
 
 @keyframes shimmer {
