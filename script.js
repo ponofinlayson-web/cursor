@@ -7,6 +7,8 @@ class HomepageManager {
         this.draggedElement = null;
         this.themes = this.defineThemes();
         this.currentTheme = this.loadTheme();
+        this.globalEventsBound = false;
+        this.modalsOpen = new Set();
         this.init();
     }
 
@@ -142,6 +144,13 @@ class HomepageManager {
     }
 
     showEditLinkModal(cardId, linkIndex, link) {
+        // Prevent multiple modals from opening
+        if (this.modalsOpen.has('editLink')) {
+            console.warn('Edit modal already open');
+            return;
+        }
+        this.modalsOpen.add('editLink');
+        
         // Create modal HTML
         const modalHTML = `
             <div class="modal" id="editLinkModal">
@@ -253,7 +262,11 @@ class HomepageManager {
                 }
 
                 this.saveCards();
-                this.renderCards();
+                
+                // Prevent re-render loop by deferring render
+                setTimeout(() => {
+                    this.renderCards();
+                }, 100);
             }
 
             // Close modal
@@ -337,6 +350,7 @@ class HomepageManager {
                 if (modal.parentNode) {
                     modal.remove();
                 }
+                this.modalsOpen.delete('editLink');
             }, 150);
         }
     }
@@ -505,13 +519,32 @@ class HomepageManager {
         });
     }
 
-    bindGlobalEvents() {
+        bindGlobalEvents() {
+        // Prevent duplicate event listeners by checking if already bound
+        if (this.globalEventsBound) {
+            return;
+        }
+        this.globalEventsBound = true;
+
         // Edit link button (using event delegation)
         document.addEventListener('click', (e) => {
             if (e.target.closest('.link-edit-btn')) {
                 e.stopPropagation();
-                const cardId = e.target.closest('.link-edit-btn').dataset.cardId;
-                const linkIndex = parseInt(e.target.closest('.link-edit-btn').dataset.linkIndex);
+                e.preventDefault();
+                
+                // Prevent multiple rapid clicks
+                const btn = e.target.closest('.link-edit-btn');
+                if (btn.disabled) {
+                    return;
+                }
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 500);
+                
+                const cardId = btn.dataset.cardId;
+                const linkIndex = parseInt(btn.dataset.linkIndex);
                 this.editLink(cardId, linkIndex);
             }
         });
@@ -520,13 +553,26 @@ class HomepageManager {
         document.addEventListener('click', (e) => {
             if (e.target.closest('.add-link-btn')) {
                 e.stopPropagation();
-                const cardId = e.target.closest('.add-link-btn').dataset.cardId;
+                e.preventDefault();
+                
+                // Prevent multiple rapid clicks
+                const btn = e.target.closest('.add-link-btn');
+                if (btn.disabled) {
+                    return;
+                }
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 500);
+                
+                const cardId = btn.dataset.cardId;
                 console.log('Add link button clicked for card:', cardId);
                 this.showAddLinkDialog(cardId);
             }
         });
 
-                 // Drag and drop functionality removed
+                  // Drag and drop functionality removed
     }
 
     setupDragAndDrop() {
@@ -704,6 +750,13 @@ class HomepageManager {
     }
 
     showAddLinkModal(cardId, card) {
+        // Prevent multiple modals from opening
+        if (this.modalsOpen.has('addLink')) {
+            console.warn('Add link modal already open');
+            return;
+        }
+        this.modalsOpen.add('addLink');
+        
         // Create modal HTML (same structure as edit link modal)
         const modalHTML = `
             <div class="modal" id="addLinkModal">
@@ -790,7 +843,12 @@ class HomepageManager {
             if (card) {
                 card.links.push(newLink);
                 this.saveCards();
-                this.renderCards();
+                
+                // Prevent re-render loop by deferring render
+                setTimeout(() => {
+                    this.renderCards();
+                }, 100);
+                
                 console.log('Link added successfully:', newLink);
             }
 
@@ -863,6 +921,7 @@ class HomepageManager {
                 if (modal.parentNode) {
                     modal.remove();
                 }
+                this.modalsOpen.delete('addLink');
             }, 150);
         }
     }
@@ -1271,11 +1330,14 @@ class HomepageManager {
                 const faviconUrl = this.getFaviconUrl(url);
                 const iconEl = linkEl.querySelector('.link-favicon-icon');
                 
+                console.log('Loading favicon for:', url, 'faviconUrl:', faviconUrl, 'iconEl:', iconEl);
+                
                 if (iconEl && faviconUrl) {
                     // Create an image to test if favicon loads
                     const img = new Image();
                     img.onload = () => {
                         try {
+                            console.log('Favicon loaded successfully for:', url);
                             // Favicon loaded successfully, replace icon with img
                             const imgEl = document.createElement('img');
                             imgEl.src = faviconUrl;
@@ -1285,17 +1347,23 @@ class HomepageManager {
                             // Verify the element still exists before replacing
                             if (iconEl && iconEl.parentNode) {
                                 iconEl.parentNode.replaceChild(imgEl, iconEl);
+                                console.log('Favicon replaced for:', url);
+                            } else {
+                                console.warn('Icon element missing or no parent for:', url);
                             }
                         } catch (err) {
-                            console.warn('Error replacing favicon icon:', err);
+                            console.warn('Error replacing favicon icon:', err, 'for:', url);
                             // Keep the Font Awesome icon if replacement fails
                         }
                     };
                     img.onerror = () => {
+                        console.warn('Favicon failed to load for:', url, 'faviconUrl:', faviconUrl);
                         // Favicon failed to load, keep the Font Awesome icon
                         // Do nothing, icon stays visible
                     };
                     img.src = faviconUrl;
+                } else {
+                    console.warn('Missing iconEl or faviconUrl for:', url, 'iconEl:', iconEl, 'faviconUrl:', faviconUrl);
                 }
             } catch (err) {
                 console.warn('Error loading favicon:', err);
