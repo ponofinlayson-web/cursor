@@ -73,12 +73,26 @@
 
 ## 🚀 Installation
 
-1. **Download** `grouped-links-v1.2.0.zip`
-2. **Extract** to any folder
-3. **Open** `index.html` in your browser
-4. **Set as homepage** in browser settings
+1. **Download** `grouped-links-v1.2.0.zip` and `grouped-links-v1.2.0.zip.sha256`
+2. **Verify checksum** (recommended):
+   ```bash
+   # Windows (PowerShell)
+   Get-FileHash grouped-links-v1.2.0.zip -Algorithm SHA256
+   
+   # Mac/Linux
+   shasum -a 256 grouped-links-v1.2.0.zip
+   
+   # Expected: 88F9FFEC6306BAE223A03E743B912321A9D32541CE16304857472F8F3A3815FB
+   ```
+3. **Extract** to any folder
+4. **Open** `index.html` in your browser
+5. **Set as homepage** in browser settings
 
 For detailed instructions, see [README.md](README.md)
+
+## 🔐 Verification
+
+This release includes a SHA256 checksum for file integrity verification. Always verify the checksum before installation to ensure the file hasn't been tampered with.
 
 ## 💡 Tips
 
@@ -96,8 +110,13 @@ For detailed instructions, see [README.md](README.md)
 
 ---
 
-## 📦 Package Contents
+## 📦 Release Files
 
+### Main Package
+- `grouped-links-v1.2.0.zip` (26.5 KB) - Main release package
+- `grouped-links-v1.2.0.zip.sha256` - SHA256 checksum for verification
+
+### Package Contents
 ```
 grouped-links-v1.2.0.zip (26.5 KB)
 ├── index.html
@@ -114,6 +133,11 @@ grouped-links-v1.2.0.zip (26.5 KB)
     ├── sunset.css
     ├── forest-green.css
     └── modern-dark.css
+```
+
+### Checksum
+```
+SHA256: 88F9FFEC6306BAE223A03E743B912321A9D32541CE16304857472F8F3A3815FB
 ```
 
 ---
