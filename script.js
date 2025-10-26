@@ -1265,8 +1265,19 @@ class HomepageManager {
     getFaviconUrl(url) {
         try {
             const urlObj = new URL(url);
+            let domain = urlObj.hostname;
+            
+            // Handle special cases where the domain doesn't match the actual service
+            if (domain === 'gmail.com') {
+                domain = 'mail.google.com';
+            } else if (domain === 'youtube.com' || domain === 'www.youtube.com') {
+                domain = 'youtube.com';
+            } else if (domain === 'hotmail.com' || domain === 'outlook.com' || domain === 'live.com') {
+                domain = 'outlook.com';
+            }
+            
             // Use Google's favicon service for reliable favicon fetching
-            return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=32`;
+            return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
         } catch {
             // Fallback if URL parsing fails
             return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23ccc"/></svg>';
