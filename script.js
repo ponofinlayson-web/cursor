@@ -1266,26 +1266,40 @@ class HomepageManager {
         const linkElements = document.querySelectorAll('.link-main[data-link-url]');
         
         linkElements.forEach(linkEl => {
-            const url = linkEl.getAttribute('data-link-url');
-            const faviconUrl = this.getFaviconUrl(url);
-            const iconEl = linkEl.querySelector('.link-favicon-icon');
-            
-            if (iconEl && faviconUrl) {
-                // Create an image to test if favicon loads
-                const img = new Image();
-                img.onload = () => {
-                    // Favicon loaded successfully, replace icon with img
-                    const imgEl = document.createElement('img');
-                    imgEl.src = faviconUrl;
-                    imgEl.className = 'link-favicon-img';
-                    imgEl.alt = '';
-                    iconEl.parentNode.replaceChild(imgEl, iconEl);
-                };
-                img.onerror = () => {
-                    // Favicon failed to load, keep the Font Awesome icon
-                    // Do nothing, icon stays visible
-                };
-                img.src = faviconUrl;
+            try {
+                const url = linkEl.getAttribute('data-link-url');
+                const faviconUrl = this.getFaviconUrl(url);
+                const iconEl = linkEl.querySelector('.link-favicon-icon');
+                
+                if (iconEl && faviconUrl) {
+                    // Create an image to test if favicon loads
+                    const img = new Image();
+                    img.onload = () => {
+                        try {
+                            // Favicon loaded successfully, replace icon with img
+                            const imgEl = document.createElement('img');
+                            imgEl.src = faviconUrl;
+                            imgEl.className = 'link-favicon-img';
+                            imgEl.alt = '';
+                            
+                            // Verify the element still exists before replacing
+                            if (iconEl && iconEl.parentNode) {
+                                iconEl.parentNode.replaceChild(imgEl, iconEl);
+                            }
+                        } catch (err) {
+                            console.warn('Error replacing favicon icon:', err);
+                            // Keep the Font Awesome icon if replacement fails
+                        }
+                    };
+                    img.onerror = () => {
+                        // Favicon failed to load, keep the Font Awesome icon
+                        // Do nothing, icon stays visible
+                    };
+                    img.src = faviconUrl;
+                }
+            } catch (err) {
+                console.warn('Error loading favicon:', err);
+                // Continue with other favicons
             }
         });
     }
