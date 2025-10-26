@@ -40,10 +40,14 @@ jobs:
         cp install.bat dist/
         cp install.sh dist/
         cp install.js dist/
+        cp QUICKSTART.md dist/
+        
+        # Copy themes directory
+        cp -r themes dist/
         
         # Create ZIP package
         cd dist
-        zip -r ../custom-homepage-dark-blue-v${{ github.ref_name }}.zip .
+        zip -r ../grouped-links-v${{ github.ref_name }}.zip .
         cd ..
     
     - name: Sign package with GPG
@@ -52,35 +56,47 @@ jobs:
         echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import
         
         # Sign the package
-        gpg --armor --detach-sign custom-homepage-dark-blue-v${{ github.ref_name }}.zip
+        gpg --armor --detach-sign grouped-links-v${{ github.ref_name }}.zip
         
         # Create checksums
-        sha256sum custom-homepage-dark-blue-v${{ github.ref_name }}.zip > custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
-        sha512sum custom-homepage-dark-blue-v${{ github.ref_name }}.zip > custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha512
+        sha256sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha256
+        sha512sum grouped-links-v${{ github.ref_name }}.zip > grouped-links-v${{ github.ref_name }}.zip.sha512
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          custom-homepage-dark-blue-v${{ github.ref_name }}.zip
-          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.asc
-          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
-          custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha512
+          grouped-links-v${{ github.ref_name }}.zip
+          grouped-links-v${{ github.ref_name }}.zip.asc
+          grouped-links-v${{ github.ref_name }}.zip.sha256
+          grouped-links-v${{ github.ref_name }}.zip.sha512
         body: |
-          # Custom Homepage v${{ github.ref_name }}
+          # Grouped Links v${{ github.ref_name }}
           
-          A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link cards.
+          A beautiful, modern homepage for Chromium-based browsers featuring theme customization, Google search integration, and organized link groups.
           
           ## ✨ Features
           
-          - **Dark Blue Theme**: Sophisticated slate gradient background
+          - **6 Built-in Themes**: Switch between Default, Ocean Blue, Sunset, Forest Green, Minimal Light, and Modern Dark themes
+          - **Theme Switcher**: Easy theme selection with persistent preferences
           - **Google Search**: Built-in search bar that opens results in new tabs
-          - **Smart Cards**: 4x3 grid layout with alphabetical sorting
-          - **Quick Link Addition**: Click anywhere on a card to add links
-          - **Edit Links**: Click edit icon to modify link names and URLs
-          - **Ctrl+Click**: Hold Ctrl and click links to open in background tabs
+          - **Smart Card Management**: 4x3 grid layout with alphabetical sorting
+          - **Easy Link Addition**: Click the "+" button in card title bars to add links
+          - **Form-Based Editing**: Clean modal forms for adding and editing links
+          - **Group Management**: Move links between groups via dropdown in edit form
+          - **Ctrl+Click Navigation**: Hold Ctrl and click links to open in background tabs (stays on homepage)
+          - **Dynamic Favicons**: Automatic favicon detection based on URLs
           - **Mobile Responsive**: Works perfectly on all devices
           - **Local Storage**: All data saved locally in your browser
+          
+          ## 🎨 Themes
+          
+          - **Default** - Original dark blue gradient (recommended)
+          - **Ocean Blue** - Bright blue tones
+          - **Sunset** - Warm orange and pink tones
+          - **Forest Green** - Natural green tones
+          - **Minimal Light** - Clean light theme
+          - **Modern Dark** - Modern dark theme
           
           ## 🔐 Verification
           
@@ -91,10 +107,10 @@ jobs:
           gpg --keyserver keyserver.ubuntu.com --recv-keys [KEY_ID]
           
           # Verify the signature
-          gpg --verify custom-homepage-dark-blue-v${{ github.ref_name }}.zip.asc
+          gpg --verify grouped-links-v${{ github.ref_name }}.zip.asc
           
           # Verify checksums
-          sha256sum -c custom-homepage-dark-blue-v${{ github.ref_name }}.zip.sha256
+          sha256sum -c grouped-links-v${{ github.ref_name }}.zip.sha256
           ```
           
           ## 🚀 Installation
@@ -103,6 +119,8 @@ jobs:
           2. Extract to any folder
           3. Double-click `index.html`
           4. Set as homepage in your browser settings
+          
+          See `QUICKSTART.md` for detailed installation and usage instructions.
           
           ## 📄 License
           
