@@ -365,22 +365,28 @@ class HomepageManager {
     }
 
     createCardHTML(card) {
-        const linksHTML = card.links.map((link, index) => `
-            <div class="link-item hvr-float" 
-                 data-card-id="${card.id}" 
-                 data-link-index="${index}" 
-                 data-aos="fade-up" 
-                 data-aos-delay="${index * 100}" 
-                 title="Ctrl + click to open - stay">
-                <a href="${link.url}" target="_blank" class="link-main">
-                    <i class="${link.icon}"></i>
-                    <span>${link.name}</span>
-                </a>
-                <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
-                    <i class="fas fa-edit"></i>
-                </button>
-            </div>
-        `).join('');
+        const linksHTML = card.links.map((link, index) => {
+            // Get favicon URL
+            const faviconUrl = this.getFaviconUrl(link.url);
+            
+            return `
+                <div class="link-item hvr-float" 
+                     data-card-id="${card.id}" 
+                     data-link-index="${index}" 
+                     data-aos="fade-up" 
+                     data-aos-delay="${index * 100}" 
+                     title="Ctrl + click to open - stay">
+                    <a href="${link.url}" target="_blank" class="link-main">
+                        <img src="${faviconUrl}" alt="" class="link-favicon" onerror="this.onerror=null; this.style.display='none'; this.parentElement.querySelector('.link-fallback-icon').style.display='inline-block';">
+                        <i class="${link.icon} link-fallback-icon" style="display:none;"></i>
+                        <span>${link.name}</span>
+                    </a>
+                    <button class="link-edit-btn" data-card-id="${card.id}" data-link-index="${index}" title="Edit link">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            `;
+        }).join('');
 
         return `
             <div class="card hvr-float-shadow animate__animated animate__fadeInUp" data-card-id="${card.id}" data-aos="zoom-in" data-aos-delay="${Math.random() * 200}">
@@ -1253,6 +1259,17 @@ class HomepageManager {
             return domain.replace('www.', '').split('.')[0];
         } catch {
             return url;
+        }
+    }
+
+    getFaviconUrl(url) {
+        try {
+            const urlObj = new URL(url);
+            // Use Google's favicon service for reliable favicon fetching
+            return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=32`;
+        } catch {
+            // Fallback if URL parsing fails
+            return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23ccc"/></svg>';
         }
     }
 

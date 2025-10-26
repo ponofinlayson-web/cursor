@@ -1,7 +1,7 @@
 {
-  "name": "custom-homepage-dark-blue",
-  "version": "1.0.0",
-  "description": "A beautiful, modern homepage with Google search integration and organized link cards",
+  "name": "grouped-links",
+  "version": "1.2.0",
+  "description": "A beautiful, modern homepage with Google search integration, dynamic favicons, organized link groups, and theme customization",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",
@@ -17,18 +17,21 @@
     "bookmarks",
     "chrome",
     "edge",
-    "firefox"
+    "firefox",
+    "startpage",
+    "links-manager",
+    "theme-selector"
   ],
   "author": "Pono Finlayson",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/custom-homepage"
+    "url": "https://github.com/ponofinlayson/grouped-links"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/custom-homepage/issues"
+    "url": "https://github.com/ponofinlayson/grouped-links/issues"
   },
-  "homepage": "https://github.com/yourusername/custom-homepage#readme",
+  "homepage": "https://github.com/ponofinlayson/grouped-links#readme",
   "engines": {
     "node": ">=12.0.0"
   },

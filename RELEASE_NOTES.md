@@ -1,55 +1,66 @@
-﻿# Custom Homepage v1.0.0
+﻿# Release Notes - Version 1.2.0
 
-A beautiful, modern homepage for Chromium-based browsers featuring a dark blue gradient background, Google search integration, and organized link cards.
+## 🎉 Major Features
 
-## âœ¨ Features
+### ✨ Dynamic Favicon Support
+- **Real Website Favicons**: Automatically fetches and displays actual favicons from websites using Google's favicon service
+- **Transparent Background**: Favicons display with transparent backgrounds for a clean look
+- **Fallback Icons**: Falls back to Font Awesome icons if favicon fails to load
+- **Smart Detection**: Automatically detects domain and fetches appropriate favicon
 
-- **Dark Blue Theme**: Sophisticated slate gradient background
-- **Google Search**: Built-in search bar that opens results in new tabs
-- **Smart Cards**: 4x3 grid layout with alphabetical sorting
-- **Quick Link Addition**: Click anywhere on a card to add links
-- **Dual Click Options**: Navigate normally or open in background tabs
-- **Drag & Drop**: Reorder links within cards
-- **Mobile Responsive**: Works perfectly on all devices
-- **Local Storage**: All data saved locally in your browser
+### 🎨 Theme Selector
+- **6 Beautiful Themes**: Choose from Default, Minimal Light, Ocean Blue, Sunset, Forest Green, and Modern Dark
+- **Persistent Selection**: Your theme choice is saved and persists across sessions
+- **Easy Access**: Subtle theme toggle button in the top-right corner
+- **Theme-Specific Colors**: Each theme has carefully crafted color schemes
 
-## ðŸš€ Installation
+### 🔧 Enhanced Edit Experience
+- **Vertical Ellipsis Button**: Subtle edit button (⋮) positioned in top-right of each link
+- **Space Efficient**: Takes minimal space, leaving more room for link names and favicons
+- **Edit Modal**: Comprehensive edit form with name, URL, and group selection
+- **Delete Protection**: Confirmation required before deleting links
 
-### Quick Start:
-1. Download custom-homepage-dark-blue-v1.0-signed.zip
-2. Extract to any folder
-3. Double-click index.html to open
-4. Set as homepage in your browser settings
+### 🎯 Improved Link Management
+- **Group Switching**: Move links between groups via dropdown in edit modal
+- **Real-time Validation**: URL validation with helpful error messages
+- **Keyboard Navigation**: Full keyboard support (Enter, Escape, Tab)
+- **Form-based Adding**: Consistent modal experience for adding and editing links
 
-### Verification:
-Run erify-signature.ps1 to verify package authenticity.
+## 🎨 UI/UX Improvements
 
-## ðŸŽ¯ Usage
+- **Centered Google Search**: Search bar centered for better visual balance
+- **Subtle Add Card Button**: Icon-only button that's less intrusive
+- **Optimized Layout**: Perfect 80/20 split for link content vs edit button
+- **Transparent Favicons**: Clean, professional appearance
 
-- **Add Links**: Click on empty card space
-- **Search**: Type in the Google search bar
-- **Navigate**: Click links normally or use background tab option
-- **Organize**: Drag and drop links within cards
+## 🐛 Bug Fixes
 
-## ðŸ“± Browser Support
+- Fixed favicon loading for new links
+- Improved edit button visibility and positioning
+- Better event handling for dynamically created elements
+- Enhanced modal escape key behavior
 
-- âœ… Chrome 80+
-- âœ… Edge 80+
-- âœ… Firefox 75+
-- âœ… Safari 13+
-- âœ… Mobile browsers
+## 📦 Technical Changes
 
-## ðŸ” Security
+- Updated to version 1.2.0
+- Added dynamic favicon fetching using `getFaviconUrl()` method
+- Implemented theme system with localStorage persistence
+- Refactored link item layout for better space utilization
+- Improved CSS organization and theme support
 
-This package is code-signed for authenticity. Always verify the signature before installation.
+## 🚀 Installation & Usage
 
-## ðŸ“„ License
+See [README.md](README.md) for full installation instructions.
 
-MIT License - Free to use, modify, and distribute.
+## 💡 Tips
 
-## ðŸ¤ Contributing
-
-Issues and pull requests welcome!
+1. **Theme Customization**: Click the ⋮ button in the top-right to change themes
+2. **Edit Links**: Click the ⋮ on any link to edit or move it between groups
+3. **Transparent Favicons**: Favicons now display cleanly without white backgrounds
+4. **Keyboard Shortcuts**: Use Enter to save, Escape to cancel in all modals
 
 ---
-**Enjoy your beautiful, functional homepage! ðŸŽ‰**
+
+**Version**: 1.2.0  
+**Release Date**: January 26, 2025  
+**Author**: Pono Finlayson
