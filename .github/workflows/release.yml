@@ -99,7 +99,11 @@ jobs:
           
           A beautiful, modern homepage for Chromium-based browsers featuring theme customization, Google search integration, and organized link groups.
           
-          ## ✨ Features
+          ## Preview
+          
+          ![Grouped Links Homepage](https://raw.githubusercontent.com/ponofinlayson-web/cursor/main/preview.png)
+          
+          ## Features
           
           - **6 Built-in Themes**: Switch between Default, Ocean Blue, Sunset, Forest Green, Minimal Light, and Modern Dark themes
           - **Theme Switcher**: Easy theme selection with persistent preferences
@@ -113,7 +117,7 @@ jobs:
           - **Mobile Responsive**: Works perfectly on all devices
           - **Local Storage**: All data saved locally in your browser
           
-          ## 🎨 Themes
+          ## Themes
           
           - **Default** - Original dark blue gradient (recommended)
           - **Ocean Blue** - Bright blue tones
@@ -122,7 +126,7 @@ jobs:
           - **Minimal Light** - Clean light theme
           - **Modern Dark** - Modern dark theme
           
-          ## 🚀 Installation
+          ## Installation
           
           1. Download the ZIP file
           2. Extract to any folder
@@ -131,7 +135,7 @@ jobs:
           
           See `QUICKSTART.md` for detailed installation and usage instructions.
           
-          ## 📄 License
+          ## License
           
           MIT License - Free to use, modify, and distribute.
           
@@ -143,7 +147,7 @@ jobs:
           
           ---
           
-          ## 🔐 Verification
+          ## Verification
           
           ### Verify Checksum (Recommended)
           
